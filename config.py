@@ -19,7 +19,7 @@ class Config:
     DATABASE_PASSWORD = os.getenv('DATABASE_PASSWORD')
 
     # Database
-    SQLALCHEMY_DATABASE_URI = "postgresql://"+DATABASE_USERNAME+":password@localhost/tennis"
+    SQLALCHEMY_DATABASE_URI = "postgresql://"+DATABASE_USERNAME+":password@localhost/soccer"
     SQLALCHEMY_ECHO = False
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
