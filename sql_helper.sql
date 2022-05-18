@@ -25,7 +25,7 @@ CASE
     WHEN home_goal = away_goal THEN 1 
     ELSE 0 END AS away_team_result
 FROM match
-WHERE league_id = 1729 AND season = '2008/2009';
+WHERE league_id = 1729 AND season = '2008/2009' AND hometeam_id = 9825 OR awayteam_id = 9825;
 
 -- win,draw,lost
 CREATE OR REPLACE VIEW match_results AS
@@ -45,8 +45,57 @@ CASE
 FROM match
 WHERE league_id = 1729 AND season = '2008/2009';
 
-SELECT team.team_long_name, SUM(goals_for),SUM(goals_against)
-FROM match_results
-JOIN team
-ON match_results.team_id = team.team_api_id
-GROUP BY team.team_long_name;
+SELECT date, season,hometeam_id,awayteam_id,home_goal,away_goal
+FROM(
+    SELECT date, season,hometeam_id,awayteam_id,home_goal,away_goal
+    FROM match
+    WHERE league_id = 1729 AND season = '2008/2009') as m
+WHERE hometeam_id = 9825 OR awayteam_id = 9825;
+
+SELECT date, season, hometeam_id, awayteam_id,home_goal,away_goal
+FROM(
+    SELECT date, season,hometeam_id,awayteam_id,home_goal,away_goal
+    FROM match
+    WHERE league_id = 1729 AND season = '2008/2009') as m
+WHERE hometeam_id = 9825 OR awayteam_id = 9825;
+
+-- Arsenal Results
+CREATE OR REPLACE VIEW arsenal_results AS
+SELECT hometeam_id AS team_id,home_goal AS goals_for,away_goal AS goals_against,
+CASE 
+    WHEN home_goal > away_goal THEN 'W'
+    WHEN home_goal = away_goal THEN 'D'
+    ELSE 'L' END AS result
+FROM(
+    SELECT date, season,hometeam_id,awayteam_id,home_goal,away_goal
+    FROM match
+    WHERE league_id = 1729 AND season = '2008/2009') as m1
+WHERE hometeam_id = 9825
+UNION ALL
+SELECT awayteam_id AS team_id,away_goal AS goals_for,home_goal AS goals_against,
+CASE 
+    WHEN home_goal < away_goal THEN 'W'
+    WHEN home_goal = away_goal THEN 'D'
+    ELSE 'L' END AS result
+FROM(
+    SELECT date, season,hometeam_id,awayteam_id,home_goal,away_goal
+    FROM match
+    WHERE league_id = 1729 AND season = '2008/2009') as m2
+WHERE awayteam_id = 9825;
+
+SELECT COUNT(result) AS games_played,
+SUM(CASE WHEN result = 'W' THEN 1 ELSE 0 END) as games_won,
+SUM(CASE WHEN result = 'D' THEN 1 ELSE 0 END) as games_drawn,
+SUM(CASE WHEN result = 'L' THEN 1 ELSE 0 END) as games_lost,
+SUM(goals_for) AS goals_for, 
+SUM(goals_against) as goals_against,
+SUM(goals_for)-SUM(goals_against) AS goal_difference,
+SUM(
+    CASE
+        WHEN result = 'W' THEN 3
+        WHEN result = 'D' THEN 1
+        ELSE 0 END
+) as points
+FROM arsenal_results;
+
+
