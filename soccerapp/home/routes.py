@@ -27,5 +27,16 @@ def leagues():
 
 	return {"leagues": results, "message":"success"}
 
-	
-	
+@home_bp.route('/teams', methods=['GET'])
+def teams():
+	teams = session.execute(
+		f"SELECT DISTINCT(team_long_name), m.season\n"
+		f"FROM match AS m\n"
+		f"INNER JOIN team as t\n"
+		f"ON m.hometeam_id = t.team_api_id\n"
+		f"WHERE league_id = 1729 AND season = '2008/2009';"
+	)
+	results = [
+		{"team":team.team_long_name} for team in teams
+	]
+	return {"teams": results, "message":"success"}
