@@ -25,4 +25,5 @@ SELECT
 -- Join away and home on the id column
 FROM home
 INNER JOIN away
-ON home.id = away.id;
+ON home.id = away.id
+ORDER BY home.date;
