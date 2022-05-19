@@ -3,7 +3,7 @@
 import datetime
 from sqlalchemy import exc
 from flask import current_app as app
-from flask import request, json, Blueprint
+from flask import request, json, Blueprint, jsonify
 from init_db import session
 
 
@@ -27,6 +27,14 @@ def leagues():
 		} for league in leagues]
 
 	return {"leagues": results, "message":"success"}
+
+@home_bp.route('/league_name/', defaults={'league': 1729})
+@home_bp.route('/league_name/<string:league>/', methods=['GET'])
+def league_name(league):
+	league_name = session.execute(f"SELECT name FROM league WHERE id = '{league}' LIMIT 1;")
+	results = [list(row) for row in league_name][0]
+	result_dict = {'league': results}
+	return result_dict
 
 @home_bp.route('/teams', methods=['GET'])
 def teams():
@@ -73,7 +81,6 @@ def league_table():
 		} for team in league_table]
 	return {"teams": results, "message":"success"}
 
-#@home_bp.route('/league_table2', methods=['GET'])
 @home_bp.route('/league_table2/', defaults={'league': 1729, 'season': '2008'})
 @home_bp.route('/league_table2/<string:league>/<string:season>', methods=['GET'])
 def league_table_2(league,season):
@@ -94,4 +101,23 @@ def league_table_2(league,season):
 		"goal_difference":team.goal_difference,
 		"points":team.points
 		} for team in league_table]
+	return {"teams": results, "message": "success"}
+
+@home_bp.route('/results/', defaults={'league': 1729, 'season': '2008'})
+@home_bp.route('/results/<string:league>/<string:season>', methods=['GET'])
+def season_results(league,season):
+
+	with open("soccerapp/sql/season_results.sql") as f:
+		query = f.read()	
+
+	game_results = session.execute(query.format(league=league,season=season+"%"))
+
+	results = [
+		{"date":result.date,
+		"hometeam":result.hometeam,
+		"awayteam":result.awayteam,
+		"home_goal":result.home_goal,
+		"away_goal":result.away_goal
+		} for result in game_results]
 	return {"teams": results, "message":"success"}
+
