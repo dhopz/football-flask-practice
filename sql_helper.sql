@@ -114,7 +114,7 @@ CASE
 FROM(
     SELECT date, season,hometeam_id,awayteam_id,home_goal,away_goal
     FROM match
-    WHERE league_id = 1729 AND season = '2008/2009') as m1
+    WHERE league_id = 1729 AND season LIKE '2008%') as m1
 UNION ALL
 SELECT awayteam_id AS team_id,away_goal AS goals_for,home_goal AS goals_against,
 CASE 
@@ -124,9 +124,9 @@ CASE
 FROM(
     SELECT date, season,hometeam_id,awayteam_id,home_goal,away_goal
     FROM match
-    WHERE league_id = 1729 AND season = '2008/2009') as m2;
+    WHERE league_id = 1729 AND season LIKE '2008%') as m2;
 
--- Nested Subquery to Create Points Table and Match Results
+-- Nested Subquery to Create Points Table and Match
 SELECT team_long_name AS team,
 COUNT(result) AS games_played,
 SUM(CASE WHEN result = 'W' THEN 1 ELSE 0 END) as games_won,

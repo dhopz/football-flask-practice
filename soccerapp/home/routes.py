@@ -7,6 +7,7 @@ from flask import request, json, Blueprint
 from init_db import session
 
 
+
 home_bp = Blueprint('home_bp', __name__,)
 
 @home_bp.route('/')
@@ -59,6 +60,29 @@ def league_table():
 		f"GROUP BY team_long_name\n"
 		f"ORDER BY points DESC, goal_difference DESC;"
 	)
+	results = [
+		{"team":team.team,
+		"games_played":team.games_played,
+		"games_won":team.games_won,
+		"games_drawn":team.games_drawn,
+		"games_lost":team.games_lost,
+		"goals_for":team.goals_for,
+		"goals_against":team.goals_against,
+		"goal_difference":team.goal_difference,
+		"points":team.points
+		} for team in league_table]
+	return {"teams": results, "message":"success"}
+
+#@home_bp.route('/league_table2', methods=['GET'])
+@home_bp.route('/league_table2/', defaults={'league': 1729, 'season': '2008'})
+@home_bp.route('/league_table2/<string:league>/<string:season>', methods=['GET'])
+def league_table_2(league,season):
+
+	with open("soccerapp/sql/points_table.sql") as f:
+		query = f.read()	
+
+	league_table = session.execute(query.format(league=league,season=season+"%"))
+
 	results = [
 		{"team":team.team,
 		"games_played":team.games_played,
