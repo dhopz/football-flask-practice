@@ -33,7 +33,7 @@ def leagues():
 def league_name(league):
 	league_name = session.execute(f"SELECT name FROM league WHERE id = '{league}' LIMIT 1;")
 	results = [list(row) for row in league_name][0]
-	return {'league': results}
+	return {'league': results,"message":"success"}
 
 @home_bp.route('/teams', methods=['GET'])
 def teams():
