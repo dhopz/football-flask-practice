@@ -35,15 +35,14 @@ def league_name(league):
 	results = [list(row) for row in league_name][0]
 	return {'league': results,"message":"success"}
 
-@home_bp.route('/teams', methods=['GET'])
-def teams():
-	teams = session.execute(
-		f"SELECT DISTINCT(team_long_name), m.season\n"
-		f"FROM match AS m\n"
-		f"INNER JOIN team as t\n"
-		f"ON m.hometeam_id = t.team_api_id\n"
-		f"WHERE league_id = 1729 AND season = '2008/2009';"
-	)
+@home_bp.route('/teams/', defaults={'league': 1729, 'season': '2008'})
+@home_bp.route('/teams/<string:league>/<string:season>', methods=['GET'])
+def teams(league,season):
+	with open("soccerapp/sql/league_teams.sql") as f:
+		query = f.read()
+
+	teams = session.execute(query.format(league=league,season=season+"%"))
+
 	results = [
 		{"team":team.team_long_name} for team in teams
 	]
