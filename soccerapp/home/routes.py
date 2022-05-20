@@ -6,15 +6,14 @@ from flask import current_app as app
 from flask import request, json, Blueprint, jsonify
 from init_db import session
 
-
-
 home_bp = Blueprint('home_bp', __name__,)
 
 @home_bp.route('/')
 def hello():
 	return {"hello": "world"}
 
-@home_bp.route('/leagues', methods=['GET'])
+# Get the leagues that are available from the database
+home_bp.route('/leagues', methods=['GET'])
 def leagues():
 	leagues = session.execute(
 		f'SELECT league.name AS league, country.name AS country\n'
@@ -28,6 +27,7 @@ def leagues():
 
 	return {"leagues": results, "message":"success"}
 
+# Get the league name
 @home_bp.route('/league_name/', defaults={'league': 1729})
 @home_bp.route('/league_name/<string:league>/', methods=['GET'])
 def league_name(league):
@@ -35,6 +35,7 @@ def league_name(league):
 	results = [list(row) for row in league_name][0]
 	return {'league': results,"message":"success"}
 
+# Get all the teams in the league by season
 @home_bp.route('/teams/', defaults={'league': 1729, 'season': '2008'})
 @home_bp.route('/teams/<string:league>/<string:season>', methods=['GET'])
 def teams(league,season):
@@ -48,6 +49,7 @@ def teams(league,season):
 	]
 	return {"teams": results, "message":"success"}
 
+# Get the League Table
 @home_bp.route('/league_table/', defaults={'league': 1729, 'season': '2008'})
 @home_bp.route('/league_table/<string:league>/<string:season>', methods=['GET'])
 def league_table(league,season):
@@ -73,6 +75,7 @@ def league_table(league,season):
 		} for team in league_table]
 	return {"league": league_name_results, "teams": results, "message": "success"}
 
+# Get the League Results by season
 @home_bp.route('/results/', defaults={'league': 1729, 'season': '2008'})
 @home_bp.route('/results/<string:league>/<string:season>', methods=['GET'])
 def season_results(league,season):
