@@ -11,7 +11,6 @@ load_dotenv(path.join(basedir, '.env'))
 
 class Config:
     """Set Flask configuration from .env file."""
-
     
     # PostgreSQL Database credentials loaded from the .env file
     DATABASE = os.getenv('DATABASE')
