@@ -3,21 +3,21 @@ import axios from "axios";
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 
-const baseURL = 'http://127.0.0.1:5000/teams/'
+const baseURL = 'http://127.0.0.1:5000/teams/';
 
 function App() {
-  const [teams, setTeams] = React.useState(null);
+  const [teams, setTeams] = React.useState('');  
 
   React.useEffect(() => {
     axios.get(baseURL).then((response) => {
-      setTeams(response.data);
+      //console.log("These are the teams: ",response.data.league_teams)
+      setTeams(response.data.league_teams);
+      //setTeams(JSON.parse('["Chelsea", "Arsenal", "Tottenham", "Brentford", "Fulham"]'))
     });
   }, []);
 
   console.log(teams)
-  console.log("Why?")
-
-  if (!teams) return null;
+  // console.log("Why?")
 
   return (
     <Box
@@ -28,10 +28,17 @@ function App() {
       noValidate
       autoComplete="off"
     >
+      <header>
+        <h1>Football Data</h1>
+      </header>
       <TextField id="outlined-basic" label="Outlined" variant="outlined" />
       <TextField id="filled-basic" label="Filled" variant="filled" />
       <TextField id="standard-basic" label="Standard" variant="standard" />
-      <li>Some Teams Here</li>
+      <ul>
+        {teams.map(item => {
+            return <li>{item.team}</li>;
+        })}
+      </ul>
     </Box>
   );
 }

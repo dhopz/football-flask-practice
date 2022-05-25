@@ -5,7 +5,7 @@ const App = () => {
         const getAPI = () => {
             // Change this endpoint to whatever local or online address you have
             // Local PostgreSQL Database
-            const API = 'http://127.0.0.1:5000/';
+            const API = 'http://127.0.0.1:5000/teams';
 
             
             fetch(API)
@@ -15,13 +15,12 @@ const App = () => {
                 })
                 .then((data) => {
                     console.log(data);
-                    setLoading(false);
                     setApiData(data);
                 });
         };
         getAPI();
     }, []);
-    const [apiData, setApiData] = useState([]);
+    const [apiData, setApiData] = useState('');
     console.log(apiData)
 
     return (
