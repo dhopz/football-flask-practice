@@ -43,11 +43,12 @@ def teams(league,season):
 		query = f.read()
 
 	teams = session.execute(query.format(league=league,season=season+"%"))
-
+			
 	results = [
 		{"team":team.team_long_name} for team in teams
 	]
-	return {"teams": results, "message":"success"}
+	# print(results)
+	return {"league_teams": results, "message":"success"}
 
 # Get the League Table
 @home_bp.route('/league_table/', defaults={'league': 1729, 'season': '2008'})

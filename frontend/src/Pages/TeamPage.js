@@ -1,39 +1,57 @@
-import React from 'react';
-import axios from 'axios';
-import { Container, Typography } from '@mui/material'
+import React, { useState, useEffect } from 'react';
+import axios from "axios";
+import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
 
-export default class TeamList extends React.Component {
-  state = {
-    teams: []
+const baseURL = 'http://127.0.0.1:5000/teams/';
+
+const TeamPage = () => {
+  const [teams, setTeams] = useState('');
+  
+  const fetchTeams = async () => {
+    const { data } = await axios.get(baseURL);
+    setTeams(data)
   }
 
-  componentDidMount() {
-    axios.get('http://127.0.0.1:5000/teams/')
-      .then(res => {
-        const teams = res.data;
-        this.setState({ teams });
-        console.log(teams)
-      })
-  }
+  useEffect(() => {
+    fetchTeams();
+  }, []);
 
-  render() {
-    return ( 
-      <Container style={{ textAlign:"center"}}>
-        <Typography
-            variant="h4"
-            style={{ margin:18, fontFamily:"Roboto"}}
-            >
-            Football Data
-        </Typography>      
-        <ul>
-          {
-            this.state.teams
-              .map(teams =>
-                <li> { teams.team } </li>
-              )
-          }
-        </ul>
-      </Container>   
-    )
-  }
+  // useEffect(() => {
+  //   axios.get(baseURL).then((response) => {
+  //     console.log("These are the teams: ",response.data.league_teams)
+  //     setTeams(response.data.league_teams);
+  //     //setTeams(JSON.parse('["Chelsea", "Arsenal", "Tottenham", "Brentford", "Fulham"]'))
+  //   });
+  // }, []);
+
+  
+  console.log(teams.league_teams)
+  // console.log("Why?")
+
+  return (
+    <Box
+      component="form"
+      sx={{
+        '& > :not(style)': { m: 1, width: '25ch' },
+      }}
+      noValidate
+      autoComplete="off"
+    >
+      <header>
+        <h1>Football Data</h1>
+      </header>
+      <TextField id="outlined-basic" label="Outlined" variant="outlined" />
+      <TextField id="filled-basic" label="Filled" variant="filled" />
+      <TextField id="standard-basic" label="Standard" variant="standard" />
+      {/* WHY DOESNT THIS WORK?? */}
+      {/* <ul>
+        {teams.map(item => {
+            return <li>{item.team}</li>;
+        })}
+      </ul> */}
+    </Box>
+  );
 }
+
+export default TeamPage;
