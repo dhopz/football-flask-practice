@@ -59,15 +59,16 @@ const columns = [
 ];
 
 const rows = [
-  { id: 1, lastName: 'Snow', firstName: 'Jon', age: 35 },
-  { id: 2, lastName: 'Lannister', firstName: 'Cersei', age: 42 },
-  { id: 3, lastName: 'Lannister', firstName: 'Jaime', age: 45 },
-  { id: 4, lastName: 'Stark', firstName: 'Arya', age: 16 },
-  { id: 5, lastName: 'Targaryen', firstName: 'Daenerys', age: null },
-  { id: 6, lastName: 'Melisandre', firstName: null, age: 150 },
-  { id: 7, lastName: 'Clifford', firstName: 'Ferrara', age: 44 },
-  { id: 8, lastName: 'Frances', firstName: 'Rossini', age: 36 },
-  { id: 9, lastName: 'Roxie', firstName: 'Harvey', age: 65 },
+  { id: 1, games_drawn: 6, games_lost: 4, games_played: 38, games_won: 28, goal_difference: '44', goals_against: '24', goals_for: '68', points: 90, team: 'Manchester United'},
+  // { id: 1, team: 'Snow', games_played: 38, age: 35 },
+  // { id: 2, team: 'Lannister', firstName: 'Cersei', age: 42 },
+  // { id: 3, lastName: 'Lannister', firstName: 'Jaime', age: 45 },
+  // { id: 4, lastName: 'Stark', firstName: 'Arya', age: 16 },
+  // { id: 5, lastName: 'Targaryen', firstName: 'Daenerys', age: null },
+  // { id: 6, lastName: 'Melisandre', firstName: null, age: 150 },
+  // { id: 7, lastName: 'Clifford', firstName: 'Ferrara', age: 44 },
+  // { id: 8, lastName: 'Frances', firstName: 'Rossini', age: 36 },
+  // { id: 9, lastName: 'Roxie', firstName: 'Harvey', age: 65 },
 ];
 
 const baseURL = 'http://127.0.0.1:5000/league_table/';
@@ -84,18 +85,19 @@ const LeaguePage = () => {
     fetchLeague();
   }, []);
 
-  console.log(league)
+  console.log("For this league", league.league)
+  console.log(league.teams)
 
   return (
     <div style={{ height: 900, width: '100%' }}>
       <header>
         <h1>Football Data</h1>
+        <h2>{league.league}</h2>
       </header>
       <DataGrid
+        //rows={league.teams}
         rows={rows}
-        columns={columns}
-        pageSize={20}
-        rowsPerPageOptions={[20]}        
+        columns={columns}      
       />
     </div>
   );
