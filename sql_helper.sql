@@ -127,8 +127,10 @@ FROM(
     WHERE league_id = 1729 AND season LIKE '2008%') as m2;
 
 -- Nested Subquery to Create Points Table and Match
+
+SELECT *, ROW_NUMBER() OVER (ORDER BY points DESC) AS id
+FROM(
 SELECT team_long_name AS team,
-ROW_NUMBER() OVER (ORDER BY team_long_name) AS id,
 COUNT(result) AS games_played,
 SUM(CASE WHEN result = 'W' THEN 1 ELSE 0 END) as games_won,
 SUM(CASE WHEN result = 'D' THEN 1 ELSE 0 END) as games_drawn,
@@ -165,7 +167,7 @@ FROM
 LEFT JOIN team
 ON match_result.team_id = team.team_api_id
 GROUP BY team_long_name
-ORDER BY points DESC, goal_difference DESC;
+ORDER BY points DESC, goal_difference DESC) AS league_table;
 
 -- Match Results
 WITH home AS (

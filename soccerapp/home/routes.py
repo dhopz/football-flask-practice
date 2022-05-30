@@ -13,7 +13,7 @@ def hello():
 	return {"hello": "world"}
 
 # Get the leagues that are available from the database
-home_bp.route('/leagues', methods=['GET'])
+@home_bp.route('/leagues', methods=['GET'])
 def leagues():
 	leagues = session.execute(
 		f'SELECT league.name AS league, country.name AS country\n'
@@ -65,6 +65,7 @@ def league_table(league,season):
 
 	results = [
 		{"team":team.team,
+		"id":team.id,
 		"games_played":team.games_played,
 		"games_won":team.games_won,
 		"games_drawn":team.games_drawn,

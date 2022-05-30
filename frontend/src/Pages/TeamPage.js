@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from "axios";
 import Box from '@mui/material/Box';
-import TextField from '@mui/material/TextField';
+import BasicSelect from '../components/LeagueSelect';
+
 
 const baseURL = 'http://127.0.0.1:5000/teams/';
 
@@ -26,10 +27,6 @@ const TeamPage = () => {
     });
   }, []);
 
-  
-  console.log(teams)
-  // console.log("Why?")
-
   return (
     <Box
       component="form"
@@ -42,7 +39,10 @@ const TeamPage = () => {
       <header>
         <h1>Football Data</h1>
       </header>
-      <TextField id="standard-basic" label="Standard" variant="standard" />
+      <br></br>
+      <BasicSelect>
+      </BasicSelect>
+      <br></br>
       {/* WHY DOESNT THIS WORK?? */}
       <ul>
         {teams.map(item => {
