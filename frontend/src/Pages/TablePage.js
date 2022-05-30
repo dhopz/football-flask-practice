@@ -133,50 +133,32 @@ const LeaguePage = () => {
   
   const baseURL = 'http://127.0.0.1:5000/league_table/';
 
-  const fetchLeague = async () => {
-    const { data } = await axios.get(baseURL);
-    setLeagueData(data);
-    setLoading(false)
-    };
-
   // const fetchLeague = async () => {
-  //   axios.get(baseURL)
-  //     .then((response) => {
-  //       // console.log("These are the teams: ",response.data.teams)
-  //       setLeagueData(response.data);
-  //   });
-  // }
-
-  useEffect(() => {
-    fetchLeague();
-    },[])
+  //   const { data } = await axios.get(baseURL);
+  //   setLeagueData(data);
+  //   // setLoading(false)
+  //   };
 
   // useEffect(() => {
-  //   axios.get(baseURL)
-  //     .then((response) => {
-  //       console.log("These are the teams: ",response.data.teams)
-  //       setLeagueData(response.data);
-  //   });
-  // }, []);
+  //   fetchLeague();
+  //   setLoading(false)
+  //   },[])
+
+  useEffect(() => {
+    axios.get(baseURL)
+      .then((response) => {
+        console.log("These are the teams: ",response.data.teams)
+        setLeagueData(response.data)
+        setLoading(false)
+    });
+  }, []);
 
 
   console.log("For this league", leagueData.league)
   console.log("These are the Teams:",leagueData.teams)
 
   if (isLoading) {
-    return (
-      <div style={{ height: 900, width: '100%' }}>
-      <header>
-        <h1>Football Data</h1>
-        {/* <h2>{leagueData.league}</h2> */}
-      </header>
-      <br></br>
-      <BasicSelect>
-      </BasicSelect>
-      <br></br>
-      return <div className="App">Loading...</div>;
-      </div>
-    )
+    return <div className="App">Loading...</div>
   }
 
   return (
