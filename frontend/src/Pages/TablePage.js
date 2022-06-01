@@ -126,10 +126,10 @@ const LeaguePage = () => {
     },
   ];
   
-  const rows = [
-    { id: 1, games_drawn: 6, games_lost: 4, games_played: 38, games_won: 28, goal_difference: '44', goals_against: '24', goals_for: '68', points: 90, team: 'Manchester United'},
-    { id: 2, games_drawn: 11, games_lost: 2, games_played: 38, games_won: 25, goal_difference: '50', goals_against: '27', goals_for: '77', points: 86, team: 'Liverpool'},
-  ];
+  // const rows = [
+  //   { id: 1, games_drawn: 6, games_lost: 4, games_played: 38, games_won: 28, goal_difference: '44', goals_against: '24', goals_for: '68', points: 90, team: 'Manchester United'},
+  //   { id: 2, games_drawn: 11, games_lost: 2, games_played: 38, games_won: 25, goal_difference: '50', goals_against: '27', goals_for: '77', points: 86, team: 'Liverpool'},
+  // ];
   
   const baseURL = 'http://127.0.0.1:5000/league_table/';
 
