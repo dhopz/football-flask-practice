@@ -19,7 +19,8 @@ import Paper from '@mui/material/Paper';
 const LeaguePage = () => {
   const [leagueData, setLeagueData] = useState([]);
   const [isLoading, setLoading] = useState(true);
-  const [value, setValue] = useState(null);
+  const [season, setSeason] = useState(2008);
+  //const [league, setLeague] = useState(1729)
 
   const columns = [
     {
@@ -72,16 +73,22 @@ const LeaguePage = () => {
     },
   ];  
   
-  const baseURL = 'http://127.0.0.1:5000/league_table/';  
+  // const baseURL = 'http://127.0.0.1:5000/league_table/1729/2011'; 
+  
+  const baseURL = (league, season) =>
+  `http://127.0.0.1:5000/league_table/${league}/${season}`
+
+
 
   useEffect(() => {
-    axios.get(baseURL)
+    axios.get(baseURL(1729,season))
       .then((response) => {
         // console.log("These are the teams: ",response.data.teams)
         setLeagueData(response.data)
         setLoading(false)
+        
     });
-  }, []);
+  }, [season]);
 
   // console.log("For this league", leagueData.league)
   // console.log("These are the Teams:",leagueData.teams)
@@ -93,7 +100,7 @@ const LeaguePage = () => {
   return (
     <Box sx={{ m:4 }}>        
     <header>
-        <h1>Football Results</h1>
+        <h1>Football Leage Table</h1>
     </header>
     <br></br>
     <Stack direction="row" divider={<Divider orientation="vertical" flexItem />} spacing={2}>
@@ -102,10 +109,10 @@ const LeaguePage = () => {
             <DatePicker
             views={['year']}
             label="Year only"
-            value={value}
-            onChange={(newValue) => {
-                setValue(newValue.getFullYear());
-                console.log(newValue.getFullYear())
+            value={season}
+            onChange={(newSeason) => {
+                setSeason(newSeason.getFullYear());
+                console.log(newSeason.getFullYear())
             }}
             renderInput={(params) => <TextField {...params} helperText={null} />}
             />        

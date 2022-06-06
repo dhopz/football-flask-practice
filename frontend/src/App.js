@@ -15,6 +15,7 @@ function App() {
           <Route exact path='/' element = {<Homepage />} />
           <Route path='/teams/' element = {<TeamPage />} />
           <Route path='/league_table/' element = {<TablePage />} />
+          <Route path='/league_table/:league/:season' element = {<TablePage />} />
           <Route path='/results/' element = {<ResultPage />} />
         </Routes>
       </div>
