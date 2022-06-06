@@ -5,9 +5,6 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-// import axios from "axios";
-
-// const baseURL = 'http://127.0.0.1:5000/leagues/';
 
 const BasicSelect = () => {
   const [league, setLeague] = React.useState('');
@@ -15,17 +12,55 @@ const BasicSelect = () => {
 
   const handleChange = (event) => {
     setLeague(event.target.value);
+    console.log(event.target.value)
   };
 
-  
-  // const fetchLeagues = async () => {
-  //   const { data } = await axios.get(baseURL);
-  //   setAllLeagues(data);
-  //   };
-
-  // useEffect(() => {
-  //   fetchLeagues();
-  //   },[])
+  const leagues = [
+    {
+      leagueName: 'Belgium Jupiler League',
+      value:1
+    },
+    {
+      leagueName: 'England Premier League',
+      value:1729
+    },
+    {
+      leagueName: 'France Ligue 1',
+      value:4769
+    },
+    {
+      leagueName: 'Germany 1. Bundesliga',
+      value:7809
+    },
+    {
+      leagueName: 'Italy Serie A',
+      value:10257
+    },
+    {
+      leagueName: 'Netherlands Eredivisie',
+      value:13274
+    },
+    {
+      leagueName: 'Poland Ekstraklasa',
+      value:15722
+    },
+    {
+      leagueName: 'Portugal Liga ZON Sagres',
+      value:17642
+    },
+    {
+      leagueName: 'Scotland Premier League',
+      value:19694
+    },
+    {
+      leagueName: 'Spain LIGA BBVA',
+      value:21518
+    },
+    {
+      leagueName: 'Switzerland Super League',
+      value:24558
+    },
+  ]
 
   return (
     <Box sx={{ minWidth: 120 }}>
@@ -38,12 +73,10 @@ const BasicSelect = () => {
           label="League"
           onChange={handleChange}
         >
-          {/* {allleagues.map(item => {
-            return <MenuItem value={league}>{item.league}</MenuItem>;
-          })}; */}
-          <MenuItem value={10}>Belgium Jupiler League</MenuItem>
-          <MenuItem value={20}>England Premier League</MenuItem>
-          <MenuItem value={30}>France Ligue 1</MenuItem>
+          {leagues.map(item => {
+            return (
+            <MenuItem value={item.value}>{item.leagueName}</MenuItem>
+            )})}
         </Select>
       </FormControl>
     </Box>
