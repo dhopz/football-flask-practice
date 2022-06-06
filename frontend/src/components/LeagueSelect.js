@@ -6,6 +6,8 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 
+// const league = createContext();
+
 const BasicSelect = () => {
   const [league, setLeague] = React.useState('');
   // const [allleagues, setAllLeagues] = useState([]);
@@ -82,5 +84,6 @@ const BasicSelect = () => {
     </Box>
   );
 }
+
 
 export default BasicSelect;
