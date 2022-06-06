@@ -20,7 +20,7 @@ const baseURL = 'http://127.0.0.1:5000/results/';
 const ResultPage = () => {
   const [resultData, setResultData] = useState([]);
   const [isLoading, setLoading] = useState(true); 
-  const [value, setValue] = React.useState(null);
+  const [value, setValue] = useState(null);
 
 
   useEffect(() => {
@@ -41,7 +41,7 @@ const ResultPage = () => {
   }
 
   return (
-    <Box sx={{ flexGrow: 1 }}>        
+    <Box sx={{ m:4 }}>        
     <header>
         <h1>Football Results</h1>
     </header>
@@ -61,7 +61,7 @@ const ResultPage = () => {
         </LocalizationProvider>
     </Stack>
     <br></br>
-    <Grid container spacing={3} justify="space-evenly">        
+    <Grid container spacing={4} columnSpacing={{ xs: 1, sm: 2, md: 3 }} justify="space-evenly">        
     {resultData.map(item => {
     return (
         <Grid item xs={4}>

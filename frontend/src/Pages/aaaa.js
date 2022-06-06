@@ -1,92 +1,167 @@
 import React, { useState, useEffect } from 'react';
 import axios from "axios";
+import { DataGrid } from '@mui/x-data-grid';
 import BasicSelect from '../components/LeagueSelect';
-import { styled } from '@mui/material/styles';
-import Box from '@mui/material/Box';
-import Paper from '@mui/material/Paper';
-import Grid from '@mui/material/Grid';
-import ResultCard from '../components/ResultCard';
-import { Card } from '@mui/material';
 
-const baseURL = 'http://127.0.0.1:5000/results/';
+// const columns = [
+//   {
+//     field: 'team',
+//     headerName: 'Team',
+//     width: 300,
+//   },
+//   {
+//     field: 'games_played',
+//     headerName: 'MP',
+//     type: 'number',
+//     width: 50,
+//   },
+//   {
+//     field: 'games_won',
+//     headerName: 'W',
+//     type: 'number',
+//     width: 50,
+//   },
+//   {
+//     field: 'games_drawn',
+//     headerName: 'D',
+//     type: 'number',
+//     width: 50,
+//   },
+//   {
+//     field: 'games_lost',
+//     headerName: 'L',
+//     type: 'number',
+//     width: 50,
+//   },
+//   {
+//     field: 'goals_for',
+//     headerName: 'GF',
+//     type: 'number',
+//     width: 50,
+//   },
+//   {
+//     field: 'goals_against',
+//     headerName: 'GA',
+//     type: 'number',
+//     width: 50,
+//   },
+//   {
+//     field: 'goal_difference',
+//     headerName: 'GD',
+//     type: 'number',
+//     width: 50,
+//   },
+//   {
+//     field: 'points',
+//     headerName: 'PTS',
+//     type: 'number',
+//     width: 50,
+//   },
+// ];
 
-const ResultPage = () => {
-  const [resultData, setResultData] = useState([]);
-  const [isLoading, setLoading] = useState(true);  
+// const rows = [
+//   { id: 1, games_drawn: 6, games_lost: 4, games_played: 38, games_won: 28, goal_difference: '44', goals_against: '24', goals_for: '68', points: 90, team: 'Manchester United'},
+//   { id: 2, games_drawn: 11, games_lost: 2, games_played: 38, games_won: 25, goal_difference: '50', goals_against: '27', goals_for: '77', points: 86, team: 'Liverpool'},
+// ];
+
+// const baseURL = 'http://127.0.0.1:5000/league_table/';
+
+const LeaguePage = () => {
+  const [leagueData, setLeagueData] = useState([]);
+  const [isLoading, setLoading] = useState(true);
+
+  const columns = [
+    {
+      field: 'team',
+      headerName: 'Team',
+      width: 300,
+    },
+    {
+      field: 'games_played',
+      headerName: 'MP',
+      type: 'number',
+      width: 50,
+    },
+    {
+      field: 'games_won',
+      headerName: 'W',
+      type: 'number',
+      width: 50,
+    },
+    {
+      field: 'games_drawn',
+      headerName: 'D',
+      type: 'number',
+      width: 50,
+    },
+    {
+      field: 'games_lost',
+      headerName: 'L',
+      type: 'number',
+      width: 50,
+    },
+    {
+      field: 'goals_for',
+      headerName: 'GF',
+      type: 'number',
+      width: 50,
+    },
+    {
+      field: 'goals_against',
+      headerName: 'GA',
+      type: 'number',
+      width: 50,
+    },
+    {
+      field: 'goal_difference',
+      headerName: 'GD',
+      type: 'number',
+      width: 50,
+    },
+    {
+      field: 'points',
+      headerName: 'PTS',
+      type: 'number',
+      width: 50,
+    },
+  ];  
+  
+  const baseURL = 'http://127.0.0.1:5000/league_table/';
 
   useEffect(() => {
     axios.get(baseURL)
       .then((response) => {
         console.log("These are the teams: ",response.data.teams)
-        setResultData(response.data.teams)
+        setLeagueData(response.data)
         setLoading(false)
     });
   }, []);
 
 
-  //console.log("For this league", resultData.league)
-  console.log("These are the Teams:",resultData)
+  console.log("For this league", leagueData.league)
+  console.log("These are the Teams:",leagueData.teams)
 
   if (isLoading) {
     return <div className="App">Loading...</div>
   }
 
   return (
-    <Box 
-    component="form"
-    sx={{
-        '& > :not(style)': { m: 1, width: '25ch', flexGrow:1 },
-      }}
-      noValidate
-      autoComplete="off"
-    >        
-    <header>
-        <h1>Football Results</h1>
-    </header>
-    <br></br>
-    <Grid container spacing={3}>
-        {resultData.map(item => {
-            // return <li>{item.awayteam} vs {item.hometeam}</li>
-            return (
-                <Grid container spacing={3}>
-                <Grid item xs={12} sm={6} md={4}>
-                    <Card sx={{ minWidth: 275 }}>
-                    <div class="my-card">
-                    <div class="my-body">
-                    <div class="my-home-team">
-                    <div class="my-team-name">{item.hometeam}</div>
-                    <div class="my-match-results">{item.home_goal}</div>
-                    </div>
-                    <div class="my-vs-tag">
-                    <span class="vs">vs</span>
-                    </div>
-                    <div class="my-away-team">
-                    <div class="my-team-name">{item.awayteam}</div>
-                    <div class="my-match-results">{item.away_goal}</div>
-                    </div>
-                    <div class="my-extra-info">
-                    <div class="my-loc-city">{item.hometeam}</div>
-                    </div>
-                    </div>
-                    <div class="my-footer">
-                    <div class= "my-group">
-                    <div class="my-date">{item.date}
-                    </div>
-                    </div>
-                    <div class="my-group">
-                    <div class="my-time">9:30 PM
-                    </div>
-                    </div>
-                    </div>
-                    </div>
-                    </Card>
-                </Grid>
-                </Grid>
-            )
-    })}
-    </Grid>
-    </Box>
+    <div style={{ height: 900, width: '100%' }}>
+      <header>
+        <h1>Football Data</h1>
+        {/* <h2>{leagueData.league}</h2> */}
+      </header>
+      <br></br>
+      <BasicSelect>
+      </BasicSelect>
+      <br></br>
+      <DataGrid
+        columns={columns}
+        //rows={rows}
+        rows={leagueData.teams}              
+      />
+    </div>
   );
 }
 
-export default ResultPage;
+export default LeaguePage;

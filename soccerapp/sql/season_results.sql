@@ -26,4 +26,5 @@ SELECT
 FROM home
 INNER JOIN away
 ON home.id = away.id
-ORDER BY home.date;
+ORDER BY home.date
+LIMIT 50;
