@@ -8,13 +8,18 @@ import Select from '@mui/material/Select';
 
 // const league = createContext();
 
-const BasicSelect = () => {
-  const [league, setLeague] = React.useState('');
+const BasicSelect = ({ leaguePicked }) => {
+  const [league, setLeague] = React.useState(1729);
   // const [allleagues, setAllLeagues] = useState([]);
+
+  
 
   const handleChange = (event) => {
     setLeague(event.target.value);
-    console.log(event.target.value)
+    leaguePicked(event.target.value)
+    //setPickedLeague(event.target.value)
+    //console.log(event.target.value);
+    //console.log("picked league", setPickedLeague)
   };
 
   const leagues = [
@@ -62,7 +67,7 @@ const BasicSelect = () => {
       leagueName: 'Switzerland Super League',
       value:24558
     },
-  ]
+  ]  
 
   return (
     <Box sx={{ minWidth: 120 }}>

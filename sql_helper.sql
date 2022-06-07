@@ -242,4 +242,6 @@ ORDER BY points DESC, goal_difference DESC) AS league_table;
 
 SELECT date, season,hometeam_id,awayteam_id,home_goal,away_goal
 FROM match
-WHERE league_id = 1729 AND season LIKE '2016%';
+WHERE league_id = 1729 AND season LIKE '2008%';
+
+SELECT MAX(date) from match;

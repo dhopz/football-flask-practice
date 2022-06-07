@@ -16,11 +16,11 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 
-const LeaguePage = ( {league} ) => {
+const LeaguePage = () => {
   const [leagueData, setLeagueData] = useState([]);
   const [isLoading, setLoading] = useState(true);
   const [season, setSeason] = useState(2008);
-  //const [league, setLeague] = useState(1729)
+  const [league, setLeague] = useState(1729)
 
   const columns = [
     {
@@ -81,14 +81,14 @@ const LeaguePage = ( {league} ) => {
 
 
   useEffect(() => {
-    axios.get(baseURL(1729,season))
+    axios.get(baseURL(league,season))
       .then((response) => {
         // console.log("These are the teams: ",response.data.teams)
         setLeagueData(response.data)
         setLoading(false)
         
     });
-  }, [season]);
+  }, [league,season]);
 
   // console.log("For this league", leagueData.league)
   // console.log("These are the Teams:",leagueData.teams)
@@ -104,16 +104,22 @@ const LeaguePage = ( {league} ) => {
     </header>
     <br></br>
     <Stack direction="row" divider={<Divider orientation="vertical" flexItem />} spacing={2}>
-    <BasicSelect/>
+    {/* <BasicSelect updateParent={league}/> */}
+    <BasicSelect
+    leaguePicked={(num) =>
+      setLeague(num)}
+      />
         <LocalizationProvider dateAdapter={AdapterDateFns}>        
             <DatePicker
+            minDate={new Date('07/18/2008')}
+            maxDate={new Date('05/25/2016')}
             views={['year']}
             label="Year only"
-            value={season}
             onChange={(newSeason) => {
                 setSeason(newSeason.getFullYear());
                 console.log(newSeason.getFullYear())
             }}
+            value={season} 
             renderInput={(params) => <TextField {...params} helperText={null} />}
             />        
         </LocalizationProvider>
