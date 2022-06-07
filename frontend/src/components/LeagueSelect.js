@@ -1,25 +1,16 @@
-// import React, { useState, useEffect } from 'react';
-import React from 'react';
+import React, { useState } from 'react';
 import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 
-// const league = createContext();
-
 const BasicSelect = ({ leaguePicked }) => {
-  const [league, setLeague] = React.useState(1729);
-  // const [allleagues, setAllLeagues] = useState([]);
-
-  
+  const [league, setLeague] = useState(1729);  
 
   const handleChange = (event) => {
     setLeague(event.target.value);
     leaguePicked(event.target.value)
-    //setPickedLeague(event.target.value)
-    //console.log(event.target.value);
-    //console.log("picked league", setPickedLeague)
   };
 
   const leagues = [

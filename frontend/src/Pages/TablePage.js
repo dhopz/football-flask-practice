@@ -72,21 +72,16 @@ const LeaguePage = () => {
       width: 50,
     },
   ];  
-  
-  // const baseURL = 'http://127.0.0.1:5000/league_table/1729/2011'; 
-  
+    
   const baseURL = (league, season) =>
   `http://127.0.0.1:5000/league_table/${league}/${season}`
-
-
 
   useEffect(() => {
     axios.get(baseURL(league,season))
       .then((response) => {
         // console.log("These are the teams: ",response.data.teams)
         setLeagueData(response.data)
-        setLoading(false)
-        
+        setLoading(false)        
     });
   }, [league,season]);
 
@@ -100,28 +95,28 @@ const LeaguePage = () => {
   return (
     <Box sx={{ m:4 }}>        
     <header>
-        <h1>Football Leage Table</h1>
+        <h1>Football League Table</h1>
     </header>
     <br></br>
     <Stack direction="row" divider={<Divider orientation="vertical" flexItem />} spacing={2}>
-    {/* <BasicSelect updateParent={league}/> */}
     <BasicSelect
     leaguePicked={(num) =>
       setLeague(num)}
       />
+
         <LocalizationProvider dateAdapter={AdapterDateFns}>        
             <DatePicker
             minDate={new Date('07/18/2008')}
             maxDate={new Date('05/25/2016')}
             views={['year']}
-            label="Year only"
+            label="Season Start Year"
+            value={season}
             onChange={(newSeason) => {
                 setSeason(newSeason.getFullYear());
-                console.log(newSeason.getFullYear())
-            }}
-            value={season} 
+                console.log(newSeason.getFullYear());
+            }} 
             renderInput={(params) => <TextField {...params} helperText={null} />}
-            />        
+            />       
         </LocalizationProvider>
     </Stack>
     <br></br> 

@@ -27,6 +27,7 @@ const App = () => {
         <Fragment>
             <header>
                 <h1>Football Data</h1>
+                <h2>Put some propoganda here...</h2>
             </header>
         </Fragment>
     );

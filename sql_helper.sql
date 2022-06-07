@@ -245,3 +245,5 @@ FROM match
 WHERE league_id = 1729 AND season LIKE '2008%';
 
 SELECT MAX(date) from match;
+
+SELECT DISTINCT(season) FROM match;
