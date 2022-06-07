@@ -1,13 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from "axios";
 import BasicSelect from '../components/LeagueSelect';
+import SeasonSelect from '../components/seasonSelect';
 import Box from '@mui/material/Box';
 import { Stack } from '@mui/material';
 import { Divider } from '@mui/material';
-import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import TextField from '@mui/material/TextField';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -103,21 +100,10 @@ const LeaguePage = () => {
     leaguePicked={(num) =>
       setLeague(num)}
       />
-
-        <LocalizationProvider dateAdapter={AdapterDateFns}>        
-            <DatePicker
-            minDate={new Date('07/18/2008')}
-            maxDate={new Date('05/25/2016')}
-            views={['year']}
-            label="Season Start Year"
-            value={season}
-            onChange={(newSeason) => {
-                setSeason(newSeason.getFullYear());
-                console.log(newSeason.getFullYear());
-            }} 
-            renderInput={(params) => <TextField {...params} helperText={null} />}
-            />       
-        </LocalizationProvider>
+    <SeasonSelect
+    seasonPicked={(num) =>
+      setSeason(num)}
+      />
     </Stack>
     <br></br> 
     <TableContainer component={Paper}>

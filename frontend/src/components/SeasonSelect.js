@@ -6,7 +6,7 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 
 const SeasonSelect = ({ seasonPicked }) => {
-  const [season, setSeason] = useState(1729);  
+  const [season, setSeason] = useState('2008/2009');  
 
   const handleChange = (event) => {
     setSeason(event.target.value);
@@ -14,14 +14,14 @@ const SeasonSelect = ({ seasonPicked }) => {
   };
 
   const seasons = [
-    {seasonName: '2008/2009',value:'2008/2009'},
-    {seasonName: '2009/2010',value:'2008/2009'},
-    {seasonName: '2010/2011',value:'2008/2009'},
-    {seasonName: '2011/2012',value:'2008/2009'},
-    {seasonName: '2012/2013',value:'2008/2009'},
-    {seasonName: '2013/2014',value:'2008/2009'},
-    {seasonName: '2014/2015',value:'2008/2009'},
-    {seasonName: '2015/2016',value:'2008/2009'}
+    {seasonName: '2008/2009',value:`2008`},
+    {seasonName: '2009/2010',value:`2009`},
+    {seasonName: '2010/2011',value:`2010`},
+    {seasonName: '2011/2012',value:`2011`},
+    {seasonName: '2012/2013',value:`2012`},
+    {seasonName: '2013/2014',value:`2013`},
+    {seasonName: '2014/2015',value:`2014`},
+    {seasonName: '2015/2016',value:`2015`}
     ]  
 
   return (
@@ -31,8 +31,8 @@ const SeasonSelect = ({ seasonPicked }) => {
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
-          value={league}
-          label="League"
+          value={season}
+          label="Season"
           onChange={handleChange}
         >
           {seasons.map(item => {
