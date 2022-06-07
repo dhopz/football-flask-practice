@@ -5,7 +5,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 
-const BasicSelect = ({ leaguePicked }) => {
+const LeagueSelect = ({ leaguePicked }) => {
   const [league, setLeague] = useState(1729);  
 
   const handleChange = (event) => {
@@ -82,4 +82,4 @@ const BasicSelect = ({ leaguePicked }) => {
 }
 
 
-export default BasicSelect;
+export default LeagueSelect;

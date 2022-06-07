@@ -6,7 +6,7 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 
 const SeasonSelect = ({ seasonPicked }) => {
-  const [season, setSeason] = useState('2008/2009');  
+  const [season, setSeason] = useState('2008');  
 
   const handleChange = (event) => {
     setSeason(event.target.value);

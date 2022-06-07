@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from "axios";
 import Box from '@mui/material/Box';
-import BasicSelect from '../components/LeagueSelect';
+import LeagueSelect from '../components/leagueSelect';
 
 
 const baseURL = 'http://127.0.0.1:5000/teams/';
@@ -40,8 +40,7 @@ const TeamPage = () => {
         <h1>Football Data</h1>
       </header>
       <br></br>
-      <BasicSelect>
-      </BasicSelect>
+      <LeagueSelect/>
       <br></br>
       {/* WHY DOESNT THIS WORK?? */}
       <ul>

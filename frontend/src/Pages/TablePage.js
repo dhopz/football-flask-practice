@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from "axios";
-import BasicSelect from '../components/LeagueSelect';
+import LeagueSelect from '../components/leagueSelect';
 import SeasonSelect from '../components/seasonSelect';
 import Box from '@mui/material/Box';
 import { Stack } from '@mui/material';
@@ -17,7 +17,7 @@ const LeaguePage = () => {
   const [leagueData, setLeagueData] = useState([]);
   const [isLoading, setLoading] = useState(true);
   const [season, setSeason] = useState(2008);
-  const [league, setLeague] = useState(1729)
+  const [league, setLeague] = useState(1729);
 
   const columns = [
     {
@@ -96,7 +96,7 @@ const LeaguePage = () => {
     </header>
     <br></br>
     <Stack direction="row" divider={<Divider orientation="vertical" flexItem />} spacing={2}>
-    <BasicSelect
+    <LeagueSelect
     leaguePicked={(num) =>
       setLeague(num)}
       />
