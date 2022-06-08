@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 
 const preventDefault = (event) => event.preventDefault();
 
-export default function Links() {
+const PageLinks = () => {
     const navigate = useNavigate();
 
     const navigateToTeams = () => {
@@ -40,3 +40,5 @@ export default function Links() {
         </Box>
     );
 }
+
+export default PageLinks;

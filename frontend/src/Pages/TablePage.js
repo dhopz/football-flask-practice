@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from "axios";
 import LeagueSelect from '../components/leagueSelect';
 import SeasonSelect from '../components/seasonSelect';
+import PageLinks from '../components/pageMenu';
 import Box from '@mui/material/Box';
 import { Stack } from '@mui/material';
 import { Divider } from '@mui/material';
@@ -95,6 +96,8 @@ const LeaguePage = () => {
         <h1>Football League Table</h1>
     </header>
     <br></br>
+    <PageLinks/>
+    <br/>
     <Stack direction="row" divider={<Divider orientation="vertical" flexItem />} spacing={2}>
     <LeagueSelect
     leaguePicked={(num) =>

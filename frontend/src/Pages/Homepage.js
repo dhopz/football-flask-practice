@@ -1,5 +1,5 @@
 import React from 'react';
-import Links from '../components/pageMenu';
+import PageLinks from '../components/pageMenu';
 import Box from '@mui/material/Box';
 
 const App = () => {
@@ -11,7 +11,7 @@ const App = () => {
                 <h2>Put some propoganda here...</h2>
             </header>
             <br/>
-            <Links/>      
+            <PageLinks/>      
         </Box>
     );
 };
