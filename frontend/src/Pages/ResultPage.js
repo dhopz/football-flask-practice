@@ -18,6 +18,7 @@ const ResultPage = () => {
   const [isLoading, setLoading] = useState(true); 
   const [season, setSeason] = useState(2008);
   const [league, setLeague] = useState(1729);
+  // const [team, setTeam] = useState([]);
 
   const baseURL = (league, season) =>
   `http://127.0.0.1:5000/results/${league}/${season}`
@@ -32,8 +33,14 @@ const ResultPage = () => {
     });
   }, [league,season]);
 
+  const filterTeam = (event) => {
+    const selectedTeam = resultData.filter(resultData => 
+      resultData.hometeam.includes("Chelsea") || resultData.awayteam.includes("Chelsea"));
+    setResultData(selectedTeam)    
+  };
+
   //console.log("For this league", resultData.league)
-  //console.log("These are the Teams:",resultData)
+  // console.log("These are the Teams:",resultData)
 
   if (isLoading) {
     return <div className="App">Loading...</div>
@@ -48,14 +55,21 @@ const ResultPage = () => {
     <PageLinks/>
     <br></br>
     <Stack direction="row" divider={<Divider orientation="vertical" flexItem />} spacing={2}>
+
     <LeagueSelect
     leaguePicked={(num) =>
       setLeague(num)}
       />
+
     <SeasonSelect
     seasonPicked={(num) =>
       setSeason(num)}
       />
+
+    <button event-key="jeep-autos" onClick={filterTeam}>
+          Chelsea
+    </button>
+
     </Stack>
     <br></br>
     <Grid container spacing={4} columnSpacing={{ xs: 1, sm: 2, md: 3 }} justify="space-evenly">        
