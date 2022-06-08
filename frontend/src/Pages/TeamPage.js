@@ -16,9 +16,8 @@ const TeamPage = () => {
   useEffect(() => {
     axios.get(baseURL)
       .then((response) => {
-        console.log("These are the teams: ",response.data.league_teams)
+        ///console.log("These are the teams: ",response.data.league_teams)
         setTeams(response.data.league_teams);
-      //setTeams(JSON.parse('["Chelsea", "Arsenal", "Tottenham", "Brentford", "Fulham"]'))
     });
   }, []);
 

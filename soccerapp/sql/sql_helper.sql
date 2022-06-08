@@ -247,3 +247,11 @@ WHERE league_id = 1729 AND season LIKE '2008%';
 SELECT MAX(date) from match;
 
 SELECT DISTINCT(season) FROM match WHERE league_id = 1729 AND season LIKE '2008%';
+
+SELECT DISTINCT(team_long_name)
+FROM match AS m
+INNER JOIN team as t
+ON m.hometeam_id = t.team_api_id
+WHERE league_id = 1729 AND season LIKE '2008%';
+
+

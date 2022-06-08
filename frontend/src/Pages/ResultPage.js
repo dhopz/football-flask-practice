@@ -3,6 +3,7 @@ import axios from "axios";
 import LeagueSelect from '../components/leagueSelect';
 import SeasonSelect from '../components/seasonSelect';
 import PageLinks from '../components/pageMenu';
+import TeamSelect from '../components/teamSelect';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import { Card } from '@mui/material';
@@ -18,7 +19,32 @@ const ResultPage = () => {
   const [isLoading, setLoading] = useState(true); 
   const [season, setSeason] = useState(2008);
   const [league, setLeague] = useState(1729);
-  // const [team, setTeam] = useState([]);
+  
+  const [team, setTeam] = useState('');
+  
+  const startTeams = [
+    'Arsenal',
+    'Aston Villa',
+    'Blackburn Rovers',
+    'Bolton Wanderers',
+    'Chelsea',
+    'Everton',
+    'Fulham',
+    'Hull City',
+    'Liverpool',
+    'Manchester City',
+    'Manchester United',
+    'Middlesbrough',
+    'Newcastle United',
+    'Portsmouth',
+    'Stoke City',
+    'Sunderland',
+    'Tottenham Hotspur',
+    'West Bromwich Albion',
+    'West Ham United',
+    'Wigan Athletic',
+  ]
+  const [teams, setTeams] = useState(startTeams);
 
   const baseURL = (league, season) =>
   `http://127.0.0.1:5000/results/${league}/${season}`
@@ -28,19 +54,28 @@ const ResultPage = () => {
     axios.get(baseURL(league,season))
       .then((response) => {
         //console.log("These are the teams: ",response.data.teams)
-        setResultData(response.data.teams)
+        setResultData(response.data.teams) 
+        setTeams([...new Set(response.data.teams.map(item => item.hometeam))])  
+        
+        //teamOption()
+        console.log("teams..",teams)
+        //teamOption()
         setLoading(false)
     });
-  }, [league,season]);
+  }, [league,season,team]);
 
-  const filterTeam = (event) => {
+  // const teamOption = () => {
+  //   setTeams([...new Set(resultData.map(item => item.hometeam))])
+  // }
+
+  const filterTeam = () => {  
     const selectedTeam = resultData.filter(resultData => 
       resultData.hometeam.includes("Chelsea") || resultData.awayteam.includes("Chelsea"));
     setResultData(selectedTeam)    
   };
 
   //console.log("For this league", resultData.league)
-  // console.log("These are the Teams:",resultData)
+  //console.log("These are the Teams:",resultData)
 
   if (isLoading) {
     return <div className="App">Loading...</div>
@@ -64,6 +99,11 @@ const ResultPage = () => {
     <SeasonSelect
     seasonPicked={(num) =>
       setSeason(num)}
+      />
+
+    <TeamSelect
+    teamPicked={(num) =>
+      setTeams(num)}
       />
 
     <button event-key="jeep-autos" onClick={filterTeam}>
