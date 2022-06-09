@@ -3,7 +3,6 @@ import axios from "axios";
 import LeagueSelect from '../components/leagueSelect';
 import SeasonSelect from '../components/seasonSelect';
 import PageLinks from '../components/pageMenu';
-import TeamSelect from '../components/teamSelect';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import { Card } from '@mui/material';
@@ -13,6 +12,10 @@ import CardActions from '@mui/material/CardActions';
 import Button from '@mui/material/Button';
 import { Stack } from '@mui/material';
 import { Divider } from '@mui/material';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
 
 const ResultPage = () => {
   const [resultData, setResultData] = useState([]);
@@ -53,25 +56,43 @@ const ResultPage = () => {
   useEffect(() => {
     axios.get(baseURL(league,season))
       .then((response) => {
-        //console.log("These are the teams: ",response.data.teams)
+
         setResultData(response.data.teams) 
-        setTeams([...new Set(response.data.teams.map(item => item.hometeam))])  
-        
-        //teamOption()
-        console.log("teams..",teams)
-        //teamOption()
+        console.log("here?")
+        //setTeams([...new Set(response.data.teams.map(item => item.hometeam))])  
+        const newTeams = [...new Set(response.data.teams.map(item => item.hometeam))]
+        //console.log('ze new teams...',newTeams)
+
+        setTeams(newTeams)
+        //console.log("should be like ze teams..",teams)
+        //teamOption(response.data.teams)
         setLoading(false)
     });
-  }, [league,season,team]);
+  }, [league,season]);
+  
+  // useEffect(() => {
+  //   const newTeams = [...new Set(resultData.map(item => item.hometeam))]
+  //   setTeams(newTeams)
+  //   console.log('do I get here??')
+  //   console.log("should be like ze teams..",teams)
+  // },[league]);
 
-  // const teamOption = () => {
-  //   setTeams([...new Set(resultData.map(item => item.hometeam))])
+
+  // const teamOption = (dataset) => {
+  //   setTeams([...new Set(dataset.map(item => item.hometeam))])
+  //   console.log("should be like ze teams..",teams)
   // }
 
-  const filterTeam = () => {  
-    const selectedTeam = resultData.filter(resultData => 
-      resultData.hometeam.includes("Chelsea") || resultData.awayteam.includes("Chelsea"));
+  const filterTeam = () => {
+    console.log(team)   
+    const selectedTeam = resultData.filter(resultData =>
+      resultData.hometeam.includes(team) || resultData.awayteam.includes(team));
     setResultData(selectedTeam)    
+  };
+
+  const handleChange = (event) => {
+    setTeam(event.target.value);
+    // teamPicked(event.target.value)
   };
 
   //console.log("For this league", resultData.league)
@@ -101,13 +122,30 @@ const ResultPage = () => {
       setSeason(num)}
       />
 
-    <TeamSelect
-    teamPicked={(num) =>
-      setTeams(num)}
-      />
+    {/* <TeamSelect
+    seasonPicked={(num) =>
+      setTeam(num)}
+      /> */}
+    <Box sx={{ minWidth: 120 }}>
+      <FormControl fullWidth>
+          <InputLabel id="demo-simple-select-label">Team</InputLabel>
+          <Select
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            value={team}
+            label="Team"
+            onChange={handleChange}
+          >
+            {teams.map(item => {
+              return (
+              <MenuItem value={item}>{item}</MenuItem>
+              )})}
+          </Select>
+      </FormControl>
+    </Box>
 
     <button event-key="jeep-autos" onClick={filterTeam}>
-          Chelsea
+          Filter
     </button>
 
     </Stack>
