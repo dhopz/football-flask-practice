@@ -56,43 +56,21 @@ const ResultPage = () => {
   useEffect(() => {
     axios.get(baseURL(league,season))
       .then((response) => {
-
-        setResultData(response.data.teams) 
-        console.log("here?")
-        //setTeams([...new Set(response.data.teams.map(item => item.hometeam))])  
+        setResultData(response.data.teams)           
         const newTeams = [...new Set(response.data.teams.map(item => item.hometeam))]
-        //console.log('ze new teams...',newTeams)
-
         setTeams(newTeams)
-        //console.log("should be like ze teams..",teams)
-        //teamOption(response.data.teams)
         setLoading(false)
     });
   }, [league,season]);
-  
-  // useEffect(() => {
-  //   const newTeams = [...new Set(resultData.map(item => item.hometeam))]
-  //   setTeams(newTeams)
-  //   console.log('do I get here??')
-  //   console.log("should be like ze teams..",teams)
-  // },[league]);
 
-
-  // const teamOption = (dataset) => {
-  //   setTeams([...new Set(dataset.map(item => item.hometeam))])
-  //   console.log("should be like ze teams..",teams)
-  // }
-
-  const filterTeam = () => {
-    console.log(team)   
+  useEffect(() => {
     const selectedTeam = resultData.filter(resultData =>
       resultData.hometeam.includes(team) || resultData.awayteam.includes(team));
-    setResultData(selectedTeam)    
-  };
+    setResultData(selectedTeam)
+  },[team]);
 
   const handleChange = (event) => {
-    setTeam(event.target.value);
-    // teamPicked(event.target.value)
+    setTeam(event.target.value);    
   };
 
   //console.log("For this league", resultData.league)
@@ -121,11 +99,7 @@ const ResultPage = () => {
     seasonPicked={(num) =>
       setSeason(num)}
       />
-
-    {/* <TeamSelect
-    seasonPicked={(num) =>
-      setTeam(num)}
-      /> */}
+    
     <Box sx={{ minWidth: 120 }}>
       <FormControl fullWidth>
           <InputLabel id="demo-simple-select-label">Team</InputLabel>
@@ -133,6 +107,7 @@ const ResultPage = () => {
             labelId="demo-simple-select-label"
             id="demo-simple-select"
             value={team}
+            defaultValue=''
             label="Team"
             onChange={handleChange}
           >
@@ -142,12 +117,7 @@ const ResultPage = () => {
               )})}
           </Select>
       </FormControl>
-    </Box>
-
-    <button event-key="jeep-autos" onClick={filterTeam}>
-          Filter
-    </button>
-
+    </Box> 
     </Stack>
     <br></br>
     <Grid container spacing={4} columnSpacing={{ xs: 1, sm: 2, md: 3 }} justify="space-evenly">        
