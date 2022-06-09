@@ -67,14 +67,15 @@ const ResultPage = () => {
     const selectedTeam = resultData.filter(resultData =>
       resultData.hometeam.includes(team) || resultData.awayteam.includes(team));
     setResultData(selectedTeam)
-  },[team]);
+  },[team,resultData]);
 
   const handleChange = (event) => {
     setTeam(event.target.value);    
   };
 
-  //console.log("For this league", resultData.league)
-  //console.log("These are the Teams:",resultData)
+  // const clearTeams = (event) => {
+  //   setLeague(1729)
+  // }
 
   if (isLoading) {
     return <div className="App">Loading...</div>
@@ -118,6 +119,8 @@ const ResultPage = () => {
           </Select>
       </FormControl>
     </Box> 
+    <Button variant="contained">Clear Team</Button>
+    {/* <Button variant="contained" onClick={clearTeams} value=''>Clear Team</Button> */}
     </Stack>
     <br></br>
     <Grid container spacing={4} columnSpacing={{ xs: 1, sm: 2, md: 3 }} justify="space-evenly">        
