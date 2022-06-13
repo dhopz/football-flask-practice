@@ -59,22 +59,26 @@ const ResultPage = () => {
       const newTeams = [...new Set(response.data.teams.map(item => item.hometeam))]
       setTeams(newTeams)
       setLoading(false)
+      setTeam('')
     };
     fetchTeams()
   },[league,season]);
     
 
   useEffect(() => {
-    const selectedTeam = resultData.filter(resultData =>
-      resultData.hometeam.includes(team) || resultData.awayteam.includes(team));
-    setResultData(selectedTeam)
-    console.log('.....')
-  },[team]);
+    const filterTeams = async () => {
+      const response = await axios.get(baseURL(league,season))
+      const teamResults = response.data.teams
+      const selectedTeam = teamResults.filter(teamResults =>
+        teamResults.hometeam.includes(team) || teamResults.awayteam.includes(team));
+      setResultData(selectedTeam)
+    };
+    filterTeams()
+  },[team,league,season]);
 
   const handleChange = (event) => {
     setTeam(event.target.value);    
   };
-
   
   const resetFilters = () => {
     const fetchTeams = async () => {
