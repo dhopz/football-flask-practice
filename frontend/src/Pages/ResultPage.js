@@ -21,8 +21,7 @@ const ResultPage = () => {
   const [resultData, setResultData] = useState([]);
   const [isLoading, setLoading] = useState(true); 
   const [season, setSeason] = useState(2008);
-  const [league, setLeague] = useState(1729);
-  
+  const [league, setLeague] = useState(1729);  
   const [team, setTeam] = useState('');
   
   const startTeams = [
@@ -54,28 +53,38 @@ const ResultPage = () => {
 
 
   useEffect(() => {
-    axios.get(baseURL(league,season))
-      .then((response) => {
-        setResultData(response.data.teams)           
-        const newTeams = [...new Set(response.data.teams.map(item => item.hometeam))]
-        setTeams(newTeams)
-        setLoading(false)
-    });
-  }, [league,season]);
+    const fetchTeams = async () => {
+      const response = await axios.get(baseURL(league,season))
+      setResultData(response.data.teams) 
+      const newTeams = [...new Set(response.data.teams.map(item => item.hometeam))]
+      setTeams(newTeams)
+      setLoading(false)
+    };
+    fetchTeams()
+  },[league,season]);
+    
 
   useEffect(() => {
     const selectedTeam = resultData.filter(resultData =>
       resultData.hometeam.includes(team) || resultData.awayteam.includes(team));
     setResultData(selectedTeam)
-  },[team,resultData]);
+    console.log('.....')
+  },[team]);
 
   const handleChange = (event) => {
     setTeam(event.target.value);    
   };
 
-  // const clearTeams = (event) => {
-  //   setLeague(1729)
-  // }
+  
+  const resetFilters = () => {
+    const fetchTeams = async () => {
+      const response = await axios.get(baseURL(league,season))      
+      setResultData(response.data.teams)
+      setLoading(false)
+      setTeam('')
+    };
+    fetchTeams();
+  }
 
   if (isLoading) {
     return <div className="App">Loading...</div>
@@ -119,8 +128,7 @@ const ResultPage = () => {
           </Select>
       </FormControl>
     </Box> 
-    <Button variant="contained">Clear Team</Button>
-    {/* <Button variant="contained" onClick={clearTeams} value=''>Clear Team</Button> */}
+    <Button value='' onClick={resetFilters}>Clear Team</Button>
     </Stack>
     <br></br>
     <Grid container spacing={4} columnSpacing={{ xs: 1, sm: 2, md: 3 }} justify="space-evenly">        
