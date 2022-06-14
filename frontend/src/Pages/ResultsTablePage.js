@@ -15,76 +15,110 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 
 const ResultsTablePage = () => {
-  const [leagueData, setLeagueData] = useState([]);
-  const [isLoading, setLoading] = useState(true);
-  const [season, setSeason] = useState(2008);
-  const [league, setLeague] = useState(1729);
+    const [resultData, setResultData] = useState([]);
+    const [isLoading, setLoading] = useState(true); 
+    const [season, setSeason] = useState(2008);
+    const [league, setLeague] = useState(1729);  
+    const [team, setTeam] = useState('');
+  
+  const startTeams = [
+    'Arsenal',
+    'Aston Villa',
+    'Blackburn Rovers',
+    'Bolton Wanderers',
+    'Chelsea',
+    'Everton',
+    'Fulham',
+    'Hull City',
+    'Liverpool',
+    'Manchester City',
+    'Manchester United',
+    'Middlesbrough',
+    'Newcastle United',
+    'Portsmouth',
+    'Stoke City',
+    'Sunderland',
+    'Tottenham Hotspur',
+    'West Bromwich Albion',
+    'West Ham United',
+    'Wigan Athletic',
+  ]
+  const [teams, setTeams] = useState(startTeams);
 
   const columns = [
     {
-      field: 'games_played',
-      headerName: 'MP',
+      field: 'date',
+      headerName: 'Date',
       type: 'number',
       width: 50,
     },
     {
-      field: 'games_won',
-      headerName: 'W',
+      field: 'hometeam',
+      headerName: 'Home Team',
+      type: 'string',
+      width: 80,
+    },
+    {
+      field: 'home_goal',
+      headerName: 'Goals',
       type: 'number',
       width: 50,
     },
     {
-      field: 'games_drawn',
-      headerName: 'D',
-      type: 'number',
-      width: 50,
-    },
-    {
-      field: 'games_lost',
-      headerName: 'L',
-      type: 'number',
-      width: 50,
-    },
-    {
-      field: 'goals_for',
+      field: 'away_goal',
       headerName: 'GF',
       type: 'number',
       width: 50,
     },
     {
-      field: 'goals_against',
-      headerName: 'GA',
-      type: 'number',
-      width: 50,
-    },
-    {
-      field: 'goal_difference',
-      headerName: 'GD',
-      type: 'number',
-      width: 50,
-    },
-    {
-      field: 'points',
-      headerName: 'PTS',
-      type: 'number',
-      width: 50,
-    },
+        field: 'awayteam',
+        headerName: 'Away Team',
+        type: 'string',
+        width: 80,
+      },
   ];  
     
   const baseURL = (league, season) =>
-  `http://127.0.0.1:5000/league_table/${league}/${season}`
+  `http://127.0.0.1:5000/results/${league}/${season}`
 
   useEffect(() => {
-    axios.get(baseURL(league,season))
-      .then((response) => {
-        // console.log("These are the teams: ",response.data.teams)
-        setLeagueData(response.data)
-        setLoading(false)        
-    });
-  }, [league,season]);
+    const fetchTeams = async () => {
+      const response = await axios.get(baseURL(league,season))
+      setResultData(response.data.teams) 
+      const newTeams = [...new Set(response.data.teams.map(item => item.hometeam))]
+      setTeams(newTeams)
+      setLoading(false)
+      setTeam('')
+    };
+    fetchTeams()
+  },[league,season]);
+    
 
-  // console.log("For this league", leagueData.league)
-  // console.log("These are the Teams:",leagueData.teams)
+  useEffect(() => {
+    const filterTeams = async () => {
+      const response = await axios.get(baseURL(league,season))
+      const teamResults = response.data.teams
+      const selectedTeam = teamResults.filter(teamResults =>
+        teamResults.hometeam.includes(team) || teamResults.awayteam.includes(team));
+      setResultData(selectedTeam)
+    };
+    filterTeams()
+  },[team]);
+
+  const handleChange = (event) => {
+    setTeam(event.target.value);    
+  };
+  
+  const resetFilters = () => {
+    const fetchTeams = async () => {
+      const response = await axios.get(baseURL(league,season))      
+      setResultData(response.data.teams)
+      setLoading(false)
+      setTeam('')
+    };
+    fetchTeams();
+  }
+
 
   if (isLoading) {
     return <div className="App">Loading...</div>
@@ -93,7 +127,7 @@ const ResultsTablePage = () => {
   return (
     <Box sx={{ m:4 }}>        
     <header>
-        <h1>Football League Table</h1>
+        <h1>Football Results e</h1>
     </header>
     <br></br>
     <PageLinks/>
@@ -121,7 +155,7 @@ const ResultsTablePage = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {leagueData.teams.map((row) => (
+          {/* {leagueData.teams.map((row) => (
             <TableRow
               key={row.team}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
@@ -131,12 +165,8 @@ const ResultsTablePage = () => {
               <TableCell align="right">{row.games_won}</TableCell>
               <TableCell align="right">{row.games_drawn}</TableCell>
               <TableCell align="right">{row.games_lost}</TableCell>
-              <TableCell align="right">{row.goals_for}</TableCell>
-              <TableCell align="right">{row.goals_against}</TableCell>
-              <TableCell align="right">{row.goal_difference}</TableCell>
-              <TableCell align="right">{row.points}</TableCell>
             </TableRow>
-          ))}
+          ))} */}
         </TableBody>
       </Table>
     </TableContainer>

@@ -99,3 +99,24 @@ def season_results(league,season):
 		} for result in game_results]
 	return {"league": league_name_results, "teams": results, "message":"success"}
 
+@home_bp.route('/result_table/', defaults={'league': 1729, 'season': '2008'})
+@home_bp.route('/result_table/<string:league>/<string:season>', methods=['GET'])
+def result_table(league,season):
+
+	league_name = session.execute(f"SELECT name FROM league WHERE id = '{league}' LIMIT 1;")
+	league_name_results = [list(row) for row in league_name][0]
+
+	with open("soccerapp/sql/season_results.sql") as f:
+		query = f.read()	
+
+	game_results = session.execute(query.format(league=league,season=season+"%"))
+
+	results = [
+		{"date":result.date,
+		"hometeam":result.hometeam,
+		"awayteam":result.awayteam,
+		"home_goal":result.home_goal,
+		"away_goal":result.away_goal
+		} for result in game_results]
+	return {"league": league_name_results, "teams": results, "message":"success"}
+
