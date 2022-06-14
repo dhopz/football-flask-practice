@@ -13,6 +13,11 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+import InputLabel from '@mui/material/InputLabel';
+import Button from '@mui/material/Button';
 
 const ResultsTablePage = () => {
     const [resultData, setResultData] = useState([]);
@@ -106,19 +111,19 @@ const ResultsTablePage = () => {
         filterTeams()
     },[team]);
 
-    // const handleChange = (event) => {
-    //     setTeam(event.target.value);    
-    // };
+    const handleChange = (event) => {
+        setTeam(event.target.value);    
+    };
     
-    // const resetFilters = () => {
-    //     const fetchTeams = async () => {
-    //     const response = await axios.get(baseURL(league,season))      
-    //     setResultData(response.data.teams)
-    //     setLoading(false)
-    //     setTeam('')
-    //     };
-    //     fetchTeams();
-    // }
+    const resetFilters = () => {
+        const fetchTeams = async () => {
+        const response = await axios.get(baseURL(league,season))      
+        setResultData(response.data.teams)
+        setLoading(false)
+        setTeam('')
+        };
+        fetchTeams();
+    }
 
 
     if (isLoading) {
@@ -142,6 +147,25 @@ const ResultsTablePage = () => {
         seasonPicked={(num) =>
         setSeason(num)}
         />
+        <Box sx={{ minWidth: 120 }}>
+            <FormControl fullWidth>
+                <InputLabel id="demo-simple-select-label">Team</InputLabel>
+                <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    value={team}
+                    defaultValue=''
+                    label="Team"
+                    onChange={handleChange}
+                >
+                    {teams.map(item => {
+                    return (
+                    <MenuItem value={item}>{item}</MenuItem>
+                    )})}
+                </Select>
+            </FormControl>
+        </Box> 
+        <Button value='' onClick={resetFilters}>Clear Team</Button>
         </Stack>
         <br></br> 
         <TableContainer component={Paper}>
