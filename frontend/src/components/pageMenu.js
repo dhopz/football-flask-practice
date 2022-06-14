@@ -26,7 +26,7 @@ const PageLinks = () => {
 
     const navigateToTableResults = () => {
         // 👇️ navigate to /
-        navigate('/results');
+        navigate('/result_table');
     }; 
 
     return (

@@ -57,6 +57,7 @@ const ResultPage = () => {
       const response = await axios.get(baseURL(league,season))
       setResultData(response.data.teams) 
       const newTeams = [...new Set(response.data.teams.map(item => item.hometeam))]
+      console.log('here...')
       setTeams(newTeams)
       setLoading(false)
       setTeam('')

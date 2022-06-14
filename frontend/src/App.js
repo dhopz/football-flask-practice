@@ -18,7 +18,8 @@ function App() {
           <Route path='/league_table/' element = {<TablePage />} />
           <Route path='/league_table/:league/:season' element = {<TablePage />} />
           <Route path='/results/' element = {<ResultPage />} />
-          {/* <Route path='/results/' element = {<ResultsTablePage />} /> */}
+          <Route path='/result_table/' element = {<ResultsTablePage />} />
+          <Route path='/result_table/:league/:season' element = {<ResultsTablePage />} />
         </Routes>
       </div>
     </BrowserRouter>
