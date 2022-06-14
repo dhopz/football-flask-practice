@@ -24,6 +24,11 @@ const PageLinks = () => {
         navigate('/results');
     }; 
 
+    const navigateToTableResults = () => {
+        // 👇️ navigate to /
+        navigate('/results');
+    }; 
+
     return (
         <Box
         sx={{
@@ -37,6 +42,7 @@ const PageLinks = () => {
         <Link onClick={navigateToLeagueTable} href="#">League Table</Link>
         <Link onClick={navigateToResults} href="results">Results</Link>
         <Link onClick={navigateToTeams} href="#">Teams</Link>
+        <Link onClick={navigateToTableResults} href="#">Table Results</Link>
         </Box>
     );
 }

@@ -4,6 +4,7 @@ import TeamPage from './Pages/TeamPage'
 import Homepage from './Pages/Homepage';
 import TablePage from './Pages/TablePage';
 import ResultPage from './Pages/ResultPage';
+import ResultsTablePage from './Pages/ResultsTablePage';
 
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
           <Route path='/league_table/' element = {<TablePage />} />
           <Route path='/league_table/:league/:season' element = {<TablePage />} />
           <Route path='/results/' element = {<ResultPage />} />
+          <Route path='/results/' element = {<ResultsTablePage />} />
         </Routes>
       </div>
     </BrowserRouter>

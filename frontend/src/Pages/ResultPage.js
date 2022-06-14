@@ -74,7 +74,7 @@ const ResultPage = () => {
       setResultData(selectedTeam)
     };
     filterTeams()
-  },[team,league,season]);
+  },[team]);
 
   const handleChange = (event) => {
     setTeam(event.target.value);    
