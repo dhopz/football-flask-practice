@@ -1,6 +1,6 @@
 --Results of Match home and away goals by season and league
 WITH home AS (
-  SELECT m.league_id AS league_id, m.season AS season_id ,m.id, m.date, 
+  SELECT m.league_id AS league_id, m.season AS season_id ,m.id, TO_CHAR(m.date :: DATE, 'FMDay, FMdd FMMonth FMyyyy') as date,
   		 t.team_long_name AS hometeam, m.home_goal
   FROM match AS m
   LEFT JOIN team AS t 
@@ -8,7 +8,7 @@ WITH home AS (
   WHERE m.league_id = {league} AND m.season LIKE '{season}'),
 -- Declare and set up the away CTE
 away AS (
-  SELECT m.league_id AS league_id, m.season AS season_id, m.id, m.date, 
+  SELECT m.league_id AS league_id, m.season AS season_id, m.id, TO_CHAR(m.date :: DATE, 'FMDay, FMdd FMMonth FMyyyy') as date, 
   		 t.team_long_name AS awayteam, m.away_goal
   FROM match AS m
   LEFT JOIN team AS t 
