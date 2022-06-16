@@ -18,6 +18,7 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import InputLabel from '@mui/material/InputLabel';
 import Button from '@mui/material/Button';
+import { makeStyles } from '@mui/material';
 
 const ResultsTablePage = () => {
     const [resultData, setResultData] = useState([]);
@@ -49,6 +50,12 @@ const ResultsTablePage = () => {
         'Wigan Athletic',
     ]
     const [teams, setTeams] = useState(startTeams);
+
+    // const useStyles = makeStyles({
+    //     tableCell: {
+    //       padding: "0px 12px 0px 0px"
+    //     }
+    //   });
 
     // const columns = [
     //     {
@@ -181,18 +188,38 @@ const ResultsTablePage = () => {
         <div>
         {resultData.map((item, index) => (
             <div key={index}>
-                <h3>{item.date}</h3>
+                <h4>{item.date}</h4>
                 {item.fixtures.map((c, i) => (
-                <div key={i}>
-                    <h3>{c.hometeam}</h3>
+                    <div key={i}>
+                        <TableContainer component={Paper}>
+                            <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                                {/* <TableHead>                            
+                                    <TableRow>
+                                    <TableCell align="right">this</TableCell>  
+                                    <TableCell align="left">is</TableCell>
+                                    <TableCell align="left">the</TableCell>
+                                    <TableCell align="left">header</TableCell>          
+                                    </TableRow>
+                                </TableHead> */}
+                                <TableBody>                        
+                                    <TableRow>
+                                    <TableCell align="right" style={{ width: '25%' }}>{c.hometeam}</TableCell>
+                                    <TableCell align='right' style={{ width: '1%' }}>{c.home_goal}</TableCell>
+                                    <TableCell align="right" style={{ width: '10%' }}>{c.away_goal}</TableCell>
+                                    <TableCell align="left" style={{ width: '25%' }}>{c.awayteam}</TableCell>
+                                    </TableRow>
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
+                    {/* <h3>{c.hometeam}</h3>
                     <h3>{c.awayteam}</h3>
-                    <hr />
+                    <hr /> */}
                 </div>
                 ))}
             </div>
             ))}        
         </div>
-        <TableContainer component={Paper}>
+        {/* <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table" size='small'>
             <TableHead>
             {resultData.map((row) => (
@@ -211,7 +238,7 @@ const ResultsTablePage = () => {
             ))}
             </TableBody>
         </Table>
-        </TableContainer>
+        </TableContainer> */}
         </Box>
     );
     }
