@@ -55,11 +55,13 @@ const ResultsTablePage = () => {
     useEffect(() => {
         const fetchTeams = async () => {
         const response = await axios.get(baseURL(league,season))
-        fixtureList(response.data.teams)
+        // fixtureList(response.data.teams)
         // setResultData(fixtureList(response.data.teams)) 
         setResultData(response.data.teams)
-        const newTeams = [...new Set(response.data.teams.map(item => item.hometeam))]
-        setTeams(newTeams)
+        // const newTeams = [...new Set(response.data.teams.map(item => item.hometeam))]
+        // console.log("this is the new teams",response.data.teams[0].fixtures)
+        getTeams(response.data.teams)
+        //setTeams(newTeams)
         setLoading(false)
         setTeam('')
         };
@@ -92,15 +94,26 @@ const ResultsTablePage = () => {
         fetchTeams();
     }
 
-    const fixtureList = (resultData) => {
-        const fixture = resultData.reduce(function (r, a) {
-        r[a.date] = r[a.date] || [];
-        r[a.date].push(a);
-        return r;
-    }, Object.create(null));
-    console.log('here....',fixture)
-    console.log(resultData)
+    const getTeams = (data) => {
+        console.log("what about here?")
+        const teamList = []
+        data.forEach(team => {
+            // console.log(team.fixtures)
+            teamList.push([...new Set(team.fixtures.map(item => item.hometeam))])      
+        });
+        console.log([...new Set(teamList.flat())])
+        setTeams([...new Set(teamList.flat())])
     }
+
+    // const fixtureList = (resultData) => {
+    //     const fixture = resultData.reduce(function (r, a) {
+    //     r[a.date] = r[a.date] || [];
+    //     r[a.date].push(a);
+    //     return r;
+    // }, Object.create(null));
+    // console.log('here....',fixture)
+    // console.log(resultData)
+    // }
 
     if (isLoading) {
         return <div className="App">Loading...</div>
