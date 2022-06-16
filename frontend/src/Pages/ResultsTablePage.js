@@ -10,7 +10,6 @@ import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import MenuItem from '@mui/material/MenuItem';
@@ -18,7 +17,6 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import InputLabel from '@mui/material/InputLabel';
 import Button from '@mui/material/Button';
-import { makeStyles } from '@mui/material';
 
 const ResultsTablePage = () => {
     const [resultData, setResultData] = useState([]);
@@ -50,45 +48,6 @@ const ResultsTablePage = () => {
         'Wigan Athletic',
     ]
     const [teams, setTeams] = useState(startTeams);
-
-    // const useStyles = makeStyles({
-    //     tableCell: {
-    //       padding: "0px 12px 0px 0px"
-    //     }
-    //   });
-
-    // const columns = [
-    //     {
-    //     field: 'date',
-    //     headerName: 'Date',
-    //     type: 'number',
-    //     width: 50,
-    //     },
-    //     {
-    //     field: 'hometeam',
-    //     headerName: 'Home Team',
-    //     type: 'string',
-    //     width: 80,
-    //     },
-    //     {
-    //     field: 'home_goal',
-    //     headerName: 'HG',
-    //     type: 'number',
-    //     width: 50,
-    //     },
-    //     {
-    //     field: 'away_goal',
-    //     headerName: 'AG',
-    //     type: 'number',
-    //     width: 50,
-    //     },
-    //     {
-    //     field: 'awayteam',
-    //     headerName: 'Away Team',
-    //     type: 'string',
-    //     width: 80,
-    //     },
-    // ];  
         
     const baseURL = (league, season) =>
     `http://127.0.0.1:5000/result_table/${league}/${season}`
@@ -117,7 +76,7 @@ const ResultsTablePage = () => {
         setResultData(selectedTeam)
         };
         filterTeams()
-    },[team]);
+    },[team,league,season]);
 
     const handleChange = (event) => {
         setTeam(event.target.value);    
@@ -185,7 +144,6 @@ const ResultsTablePage = () => {
         <Button value='' onClick={resetFilters}>Clear Team</Button>
         </Stack>        
         <br></br> 
-        <div>
         {resultData.map((item, index) => (
             <div key={index}>
                 <h4>{item.date}</h4>
@@ -193,14 +151,6 @@ const ResultsTablePage = () => {
                     <div key={i}>
                         <TableContainer component={Paper}>
                             <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                                {/* <TableHead>                            
-                                    <TableRow>
-                                    <TableCell align="right">this</TableCell>  
-                                    <TableCell align="left">is</TableCell>
-                                    <TableCell align="left">the</TableCell>
-                                    <TableCell align="left">header</TableCell>          
-                                    </TableRow>
-                                </TableHead> */}
                                 <TableBody>                        
                                     <TableRow>
                                     <TableCell align="right" style={{ width: '25%' }}>{c.hometeam}</TableCell>
@@ -211,34 +161,10 @@ const ResultsTablePage = () => {
                                 </TableBody>
                             </Table>
                         </TableContainer>
-                    {/* <h3>{c.hometeam}</h3>
-                    <h3>{c.awayteam}</h3>
-                    <hr /> */}
-                </div>
+                    </div>
                 ))}
             </div>
-            ))}        
-        </div>
-        {/* <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }} aria-label="simple table" size='small'>
-            <TableHead>
-            {resultData.map((row) => (
-                <TableRow>
-                <TableCell align="left">{row.date}</TableCell>            
-                </TableRow>))}
-            </TableHead>
-            <TableBody>
-            {resultData.map((row) => (
-                <TableRow>
-                <TableCell align="right">{row.hometeam}</TableCell>
-                <TableCell component="th" scope="row">{row.home_goal}</TableCell>
-                <TableCell align="right">{row.away_goal}</TableCell>
-                <TableCell align="left">{row.awayteam}</TableCell>
-                </TableRow>
             ))}
-            </TableBody>
-        </Table>
-        </TableContainer> */}
         </Box>
     );
     }
