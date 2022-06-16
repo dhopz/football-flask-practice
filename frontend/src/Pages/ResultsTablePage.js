@@ -50,38 +50,38 @@ const ResultsTablePage = () => {
     ]
     const [teams, setTeams] = useState(startTeams);
 
-    const columns = [
-        {
-        field: 'date',
-        headerName: 'Date',
-        type: 'number',
-        width: 50,
-        },
-        {
-        field: 'hometeam',
-        headerName: 'Home Team',
-        type: 'string',
-        width: 80,
-        },
-        {
-        field: 'home_goal',
-        headerName: 'HG',
-        type: 'number',
-        width: 50,
-        },
-        {
-        field: 'away_goal',
-        headerName: 'AG',
-        type: 'number',
-        width: 50,
-        },
-        {
-        field: 'awayteam',
-        headerName: 'Away Team',
-        type: 'string',
-        width: 80,
-        },
-    ];  
+    // const columns = [
+    //     {
+    //     field: 'date',
+    //     headerName: 'Date',
+    //     type: 'number',
+    //     width: 50,
+    //     },
+    //     {
+    //     field: 'hometeam',
+    //     headerName: 'Home Team',
+    //     type: 'string',
+    //     width: 80,
+    //     },
+    //     {
+    //     field: 'home_goal',
+    //     headerName: 'HG',
+    //     type: 'number',
+    //     width: 50,
+    //     },
+    //     {
+    //     field: 'away_goal',
+    //     headerName: 'AG',
+    //     type: 'number',
+    //     width: 50,
+    //     },
+    //     {
+    //     field: 'awayteam',
+    //     headerName: 'Away Team',
+    //     type: 'string',
+    //     width: 80,
+    //     },
+    // ];  
         
     const baseURL = (league, season) =>
     `http://127.0.0.1:5000/result_table/${league}/${season}`
@@ -89,9 +89,10 @@ const ResultsTablePage = () => {
     useEffect(() => {
         const fetchTeams = async () => {
         const response = await axios.get(baseURL(league,season))
-        setResultData(response.data.teams) 
+        fixtureList(response.data.teams)
+        // setResultData(fixtureList(response.data.teams)) 
+        setResultData(response.data.teams)
         const newTeams = [...new Set(response.data.teams.map(item => item.hometeam))]
-        console.log(resultData)
         setTeams(newTeams)
         setLoading(false)
         setTeam('')
@@ -125,6 +126,15 @@ const ResultsTablePage = () => {
         fetchTeams();
     }
 
+    const fixtureList = (resultData) => {
+        const fixture = resultData.reduce(function (r, a) {
+        r[a.date] = r[a.date] || [];
+        r[a.date].push(a);
+        return r;
+    }, Object.create(null));
+    console.log('here....',fixture)
+    console.log(resultData)
+    }
 
     if (isLoading) {
         return <div className="App">Loading...</div>
@@ -166,22 +176,33 @@ const ResultsTablePage = () => {
             </FormControl>
         </Box> 
         <Button value='' onClick={resetFilters}>Clear Team</Button>
-        </Stack>
+        </Stack>        
         <br></br> 
+        <div>
+        {resultData.map((item, index) => (
+            <div key={index}>
+                <h3>{item.date}</h3>
+                {item.fixtures.map((c, i) => (
+                <div key={i}>
+                    <h3>{c.hometeam}</h3>
+                    <h3>{c.awayteam}</h3>
+                    <hr />
+                </div>
+                ))}
+            </div>
+            ))}        
+        </div>
         <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+        <Table sx={{ minWidth: 650 }} aria-label="simple table" size='small'>
             <TableHead>
-            {/* <TableRow>
-            {columns.map(item => {
-                return (
-                <TableCell align="right">{item.headerName}</TableCell>
-                )})}
-            </TableRow> */}
+            {resultData.map((row) => (
+                <TableRow>
+                <TableCell align="left">{row.date}</TableCell>            
+                </TableRow>))}
             </TableHead>
             <TableBody>
             {resultData.map((row) => (
                 <TableRow>
-                <TableCell align="right">{row.date}</TableCell>
                 <TableCell align="right">{row.hometeam}</TableCell>
                 <TableCell component="th" scope="row">{row.home_goal}</TableCell>
                 <TableCell align="right">{row.away_goal}</TableCell>

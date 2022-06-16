@@ -171,7 +171,7 @@ ORDER BY points DESC, goal_difference DESC) AS league_table;
 
 -- Match Results
 WITH home AS (
-  SELECT m.league_id AS league_id, m.season AS season_id ,m.id, TO_CHAR(m.date :: DATE, 'Mon dd, yyyy'), 
+  SELECT m.league_id AS league_id, m.season AS season_id ,m.id, TO_CHAR(m.date :: DATE, 'Mon dd, yyyy') as date, 
   		 t.team_long_name AS hometeam, m.home_goal
   FROM match AS m
   LEFT JOIN team AS t 
@@ -179,7 +179,7 @@ WITH home AS (
   WHERE m.league_id = 1729 AND m.season LIKE '2008%'),
 -- Declare and set up the away CTE
 away AS (
-  SELECT m.league_id AS league_id, m.season AS season_id, m.id, TO_CHAR(m.date :: DATE, 'Mon dd, yyyy'), 
+  SELECT m.league_id AS league_id, m.season AS season_id, m.id, TO_CHAR(m.date :: DATE, 'Mon dd, yyyy') as date, 
   		 t.team_long_name AS awayteam, m.away_goal
   FROM match AS m
   LEFT JOIN team AS t 

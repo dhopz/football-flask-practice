@@ -5,6 +5,13 @@ from sqlalchemy import exc
 from flask import current_app as app
 from flask import request, json, Blueprint, jsonify
 from init_db import session
+from operator import itemgetter
+from itertools import groupby
+from functools import partial
+
+def del_ret(d, key):
+    del d[key]
+    return d
 
 home_bp = Blueprint('home_bp', __name__,)
 
@@ -99,6 +106,20 @@ def season_results(league,season):
 		} for result in game_results]
 	return {"league": league_name_results, "teams": results, "message":"success"}
 
+def del_ret(d, key):
+    del d[key]
+    return d
+
+def create_fixtures(newdict):
+    fixture_dict = []
+    for date in newdict:
+        formatdict = {}
+        formatdict["date"] = date
+        formatdict["fixtures"] = newdict[date]
+        fixture_dict.append(formatdict)
+        
+    return fixture_dict
+
 @home_bp.route('/result_table/', defaults={'league': 1729, 'season': '2008'})
 @home_bp.route('/result_table/<string:league>/<string:season>', methods=['GET'])
 def result_table(league,season):
@@ -118,5 +139,12 @@ def result_table(league,season):
 		"home_goal":result.home_goal,
 		"away_goal":result.away_goal
 		} for result in game_results]
-	return {"league": league_name_results, "teams": results, "message":"success"}
+
+	fixtures = dict(map(lambda k_v: (k_v[0], tuple(map(partial(del_ret, key="date"), k_v[1]))),
+         groupby(results, itemgetter("date"))))
+
+	fixture_results = create_fixtures(fixtures)
+
+	# return {"league": league_name_results, "teams": results, "message":"success"}
+	return {"league": league_name_results, "teams": fixture_results, "message":"success"}
 

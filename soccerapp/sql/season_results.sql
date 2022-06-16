@@ -15,9 +15,8 @@ away AS (
   ON m.awayteam_id = t.team_api_id
   WHERE m.league_id = {league} AND m.season LIKE '{season}')
 -- Select date, home_goal, and away_goal
-SELECT
-    
-	home.date,
+SELECT    
+	  home.date,
     home.hometeam,
     away.awayteam,
     home.home_goal,
