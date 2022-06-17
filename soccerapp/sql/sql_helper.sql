@@ -273,14 +273,15 @@ away AS (
 -- Select date, home_goal, and away_goal
 SELECT    
 	  home.date,
-    home.hometeam,
-    away.awayteam,
+    home.hometeam AS hometeam,
+    away.awayteam AS awayteam,
     home.home_goal,
     away.away_goal
 -- Join away and home on the id column
 FROM home
 INNER JOIN away
 ON home.id = away.id
+WHERE hometeam = 'Everton' OR awayteam = 'Everton'
 ORDER BY home.match_date
 LIMIT 50;
 

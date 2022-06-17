@@ -148,3 +148,30 @@ def result_table(league,season):
 	# return {"league": league_name_results, "teams": results, "message":"success"}
 	return {"league": league_name_results, "teams": fixture_results, "message":"success"}
 
+# Get the League Results by season
+@home_bp.route('/fixtures/', defaults={'league': 1729, 'season': '2008', 'team':'Everton'})
+@home_bp.route('/fixtures/<string:league>/<string:season>/<string:team>', methods=['GET'])
+def fixtures(league,season,team):
+
+	league_name = session.execute(f"SELECT name FROM league WHERE id = '{league}' LIMIT 1;")
+	league_name_results = [list(row) for row in league_name][0]
+
+	with open("soccerapp/sql/fixtures.sql") as f:
+		query = f.read()	
+
+	game_results = session.execute(query.format(league=league,season=season+"%",team=team))
+
+	results = [
+		{"date":result.date,
+		"hometeam":result.hometeam,
+		"awayteam":result.awayteam,
+		"home_goal":result.home_goal,
+		"away_goal":result.away_goal
+		} for result in game_results]
+
+	fixtures = dict(map(lambda k_v: (k_v[0], tuple(map(partial(del_ret, key="date"), k_v[1]))),
+         groupby(results, itemgetter("date"))))
+
+	fixture_results = create_fixtures(fixtures)
+
+	return {"league": league_name_results, "teams": fixture_results, "message":"success"}

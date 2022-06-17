@@ -52,6 +52,9 @@ const ResultsTablePage = () => {
     const baseURL = (league, season) =>
     `http://127.0.0.1:5000/result_table/${league}/${season}`
 
+    const fixtureURL = (league,season,team) =>
+    `http://127.0.0.1:5000/fixtures/${league}/${season}/${team}`
+
     useEffect(() => {
         const fetchTeams = async () => {
         const response = await axios.get(baseURL(league,season))        
@@ -64,28 +67,30 @@ const ResultsTablePage = () => {
     },[league,season]);
         
 
+    // useEffect(() => {
+    //     const filterTeams = async () => {
+    //     const response = await axios.get(baseURL(league,season))
+    //     const teamResults = response.data.teams
+    //     // filteredTeams(teamResults)
+    //     console.log("here???")
+    //     const selectedTeam = teamResults.filter(teamResults =>
+    //         teamResults.hometeam.includes(team) || teamResults.awayteam.includes(team));
+    //     setResultData(selectedTeam)
+    //     };
+    //     filterTeams()
+        
+    // },[team,league,season]);
+
     useEffect(() => {
         const filterTeams = async () => {
-        const response = await axios.get(baseURL(league,season))
-        const teamResults = response.data.teams
-        // filteredTeams(teamResults)
+        const response = await axios.get(fixtureURL(league,season,team))
+        setResultData(response.data.teams)
         console.log("here???")
-        const selectedTeam = teamResults.filter(teamResults =>
-            teamResults.hometeam.includes(team) || teamResults.awayteam.includes(team));
-        setResultData(selectedTeam)
         };
         filterTeams()
         
     },[team,league,season]);
 
-    // const filteredTeams = (data) => {
-    //     console.log("here too?")
-    //     const aaa = data.filter(item =>
-    //         item.fixtures.filter(c => c.awayteam === team).length > 0)
-        
-    //     console.log("here 3")
-    //     console.log('aaa',aaa)
-    // }
 
     const handleChange = (event) => {
         console.log(event.target.value)
