@@ -54,14 +54,9 @@ const ResultsTablePage = () => {
 
     useEffect(() => {
         const fetchTeams = async () => {
-        const response = await axios.get(baseURL(league,season))
-        // fixtureList(response.data.teams)
-        // setResultData(fixtureList(response.data.teams)) 
-        setResultData(response.data.teams)
-        // const newTeams = [...new Set(response.data.teams.map(item => item.hometeam))]
-        // console.log("this is the new teams",response.data.teams[0].fixtures)
+        const response = await axios.get(baseURL(league,season))        
+        setResultData(response.data.teams)        
         getTeams(response.data.teams)
-        //setTeams(newTeams)
         setLoading(false)
         setTeam('')
         };
@@ -73,15 +68,33 @@ const ResultsTablePage = () => {
         const filterTeams = async () => {
         const response = await axios.get(baseURL(league,season))
         const teamResults = response.data.teams
+        filteredTeams(teamResults)
+        console.log("here???")
         const selectedTeam = teamResults.filter(teamResults =>
             teamResults.hometeam.includes(team) || teamResults.awayteam.includes(team));
         setResultData(selectedTeam)
         };
         filterTeams()
+        
     },[team,league,season]);
 
+    const filteredTeams = (data) => {
+        console.log("here too?")
+        const aaa = data.filter(item =>
+            item.fixtures.filter(c => c.awayteam === team).length > 0)
+
+        const selected = team
+        const res = data.filter(key =>
+            selected.includes(key))
+        
+        console.log("here 3")
+        console.log(aaa)
+        console.log(res)
+    }
+
     const handleChange = (event) => {
-        setTeam(event.target.value);    
+        console.log(event.target.value)
+        setTeam(event.target.value);   
     };
     
     const resetFilters = () => {
@@ -95,13 +108,10 @@ const ResultsTablePage = () => {
     }
 
     const getTeams = (data) => {
-        console.log("what about here?")
         const teamList = []
-        data.forEach(team => {
-            // console.log(team.fixtures)
+        data.forEach(team => {            
             teamList.push([...new Set(team.fixtures.map(item => item.hometeam))])      
-        });
-        console.log([...new Set(teamList.flat())])
+        });        
         setTeams([...new Set(teamList.flat())])
     }
 
