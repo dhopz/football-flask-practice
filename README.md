@@ -66,12 +66,8 @@ Kindly ensure you have the following installed:
 
 8. This is the data I was aiming to represent and my results;
 
-![Alt text](/images/comparison1.png "Goal") 
+![Alt text](/images/comparison1.png "Compare1") 
 
 9. And some Fixtures awith Filters by League, Season and Team;
 
-![Alt text](/images/fixture_goal.png?raw=true "Goal") 
-
-vs (without CSS)
-
-![Alt text](/images/fixture_result.png?raw=true "Result")
+![Alt text](/images/compare2.png "Comapare2") 
