@@ -68,7 +68,7 @@ const ResultsTablePage = () => {
         const filterTeams = async () => {
         const response = await axios.get(baseURL(league,season))
         const teamResults = response.data.teams
-        filteredTeams(teamResults)
+        // filteredTeams(teamResults)
         console.log("here???")
         const selectedTeam = teamResults.filter(teamResults =>
             teamResults.hometeam.includes(team) || teamResults.awayteam.includes(team));
@@ -78,19 +78,14 @@ const ResultsTablePage = () => {
         
     },[team,league,season]);
 
-    const filteredTeams = (data) => {
-        console.log("here too?")
-        const aaa = data.filter(item =>
-            item.fixtures.filter(c => c.awayteam === team).length > 0)
-
-        const selected = team
-        const res = data.filter(key =>
-            selected.includes(key))
+    // const filteredTeams = (data) => {
+    //     console.log("here too?")
+    //     const aaa = data.filter(item =>
+    //         item.fixtures.filter(c => c.awayteam === team).length > 0)
         
-        console.log("here 3")
-        console.log(aaa)
-        console.log(res)
-    }
+    //     console.log("here 3")
+    //     console.log('aaa',aaa)
+    // }
 
     const handleChange = (event) => {
         console.log(event.target.value)
