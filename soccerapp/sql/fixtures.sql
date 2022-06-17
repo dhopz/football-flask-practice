@@ -25,6 +25,6 @@ SELECT
 FROM home
 INNER JOIN away
 ON home.id = away.id
-WHERE hometeam = 'Everton' OR awayteam = 'Everton'
+WHERE hometeam = '{team}' OR awayteam = '{team}'
 ORDER BY home.match_date
 LIMIT 50;
