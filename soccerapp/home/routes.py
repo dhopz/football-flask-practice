@@ -103,22 +103,6 @@ def season_results(league,season):
 		} for result in game_results]
 	return {"league": league_name_results, "teams": results, "message":"success"}
 
-# def del_ret(d, key):
-#     del d[key]
-#     return d
-
-# def create_fixtures(newdict):
-#     fixture_dict = []
-#     for date in newdict:
-#         formatdict = {}
-#         formatdict["date"] = date
-#         formatdict["fixtures"] = newdict[date]
-#         fixture_dict.append(formatdict)        
-#     return fixture_dict
-
-# def format_fixtures(results):
-# 	return dict(map(lambda k_v: (k_v[0], tuple(map(partial(del_ret, key="date"), k_v[1]))),groupby(results, itemgetter("date"))))
-
 @home_bp.route('/result_table/', defaults={'league': 1729, 'season': '2008'})
 @home_bp.route('/result_table/<string:league>/<string:season>', methods=['GET'])
 def result_table(league,season):
@@ -139,13 +123,7 @@ def result_table(league,season):
 		"away_goal":result.away_goal
 		} for result in game_results]
 
-	fixtures = dict(map(lambda k_v: (k_v[0], tuple(map(partial(del_ret, key="date"), k_v[1]))),
-         groupby(results, itemgetter("date"))))
-
-	fixture_results = create_fixtures(fixtures)
-
-	# return {"league": league_name_results, "teams": results, "message":"success"}
-	return {"league": league_name_results, "teams": fixture_results, "message":"success"}
+	return {"league": league_name_results, "teams": create_fixtures(format_fixtures(results)), "message":"success"}	
 
 # Get the League Results by season
 @home_bp.route('/fixtures/', defaults={'league': 1729, 'season': '2008', 'team':'Everton'})
@@ -167,7 +145,5 @@ def fixtures(league,season,team):
 		"home_goal":result.home_goal,
 		"away_goal":result.away_goal
 		} for result in game_results]
-
-	fixture_results = create_fixtures(format_fixtures(results))
-
-	return {"league": league_name_results, "teams": fixture_results, "message":"success"}
+	
+	return {"league": league_name_results, "teams": create_fixtures(format_fixtures(results)), "message":"success"}
